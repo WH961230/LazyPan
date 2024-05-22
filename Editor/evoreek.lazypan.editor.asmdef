@@ -1,0 +1,16 @@
+{
+    "name": "evoreek.lazypan.editor",
+    "rootNamespace": "",
+    "references": ["GUID:64f7e3d62910349489676a7556819627"],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

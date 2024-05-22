@@ -1,0 +1,7 @@
+﻿Sign,Description,DirPath,Flow,DelayTime
+string,string,string,string,float
+标识,描述,物体路径,流程,加载时间
+Begin,开始场景,Obj/Begin/,Flow_Begin,0
+Cabin,船舱场景,Obj/Cabin/,Flow_Cabin,1
+Catfe,猫咖场景,Obj/Catfe/,Flow_Catfe,1
+Battle,战斗场景,Obj/Battle/,Flow_Battle,2

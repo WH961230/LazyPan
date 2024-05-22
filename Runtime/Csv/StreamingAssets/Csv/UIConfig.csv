@@ -1,0 +1,7 @@
+﻿Sign,Description,Type,RenderQueue
+string,string,int,int
+标识,描述,类型(0:互斥 1:常驻),渲染层级
+UI_Begin,开始界面,1,0
+UI_Cabin,基地界面,1,0
+UI_Battle,战斗界面,1,0
+UI_Catfe,猫咖界面,1,0

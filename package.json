@@ -1,0 +1,12 @@
+{
+	"name":"evoreek.lazypan",
+	"version":"0.0.1",
+	"displayName":"LazyPan",
+	"description":"为了实现懒惰的框架",
+	"dependencies": {
+		"com.unity.inputsystem" : "1.5.1",
+		"com.unity.addressables" : "1.21.20",
+		"com.unity.textmeshpro" : "3.0.6",
+		"com.unity.timeline" : "1.7.4"
+	}
+}
