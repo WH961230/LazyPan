@@ -1,0 +1,3 @@
+﻿Sign,Description,DirPath,Flow,DelayTime
+string,string,string,string,float
+标识,描述,物体路径,流程,加载时间

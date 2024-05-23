@@ -1,0 +1,28 @@
+using UnityEngine;
+
+namespace LazyPan {
+    public class Flow_#流程标识# : Flow {
+#界面属性#
+#实体属性#
+        public override void Init(Flow baseFlow) {
+            base.Init(baseFlow);
+            ConsoleEx.Instance.ContentSave("flow", "Flow_#流程标识#  #流程名#流程");
+#创建界面#
+#初始化创建实体#
+        }
+
+#获取界面#
+#流程阶段#
+        /*下一步*/
+        public void Next(string teleportSceneSign) {
+            Clear();
+            Launch.instance.StageLoad(teleportSceneSign);
+        }
+
+        public override void Clear() {
+            base.Clear();
+#清除销毁实体#
+#销毁界面#
+        }
+    }
+}

@@ -100,6 +100,6 @@ public class LazyPanTool : EditorWindow {
     }
 
     public static GUISkin GetGUISkin(string guiskinname) {
-        return Addressables.LoadAssetAsync<GUISkin>($"Packages/evoreek.lazypan/Runtime/{guiskinname}.guiskin").WaitForCompletion();
+        return Addressables.LoadAssetAsync<GUISkin>($"Packages/evoreek.lazypan/Runtime/Bundles/GUISkin/{guiskinname}.guiskin").WaitForCompletion();
     }
 }

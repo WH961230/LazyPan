@@ -1,0 +1,15 @@
+using UnityEngine;
+#命名空间#
+
+namespace LazyPan {
+    public class Behaviour_#行为类型#_#行为标识# : Behaviour {
+        public Behaviour_#行为类型#_#行为标识#(Entity entity, string behaviourSign) : base(entity, behaviourSign) {
+        }
+
+#自定义方法#
+
+        public override void Clear() {
+            base.Clear();
+        }
+    }
+}

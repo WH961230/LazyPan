@@ -1,0 +1,55 @@
+using System;
+using System.Collections.Generic;
+
+namespace LazyPan {
+    public class #ClassName# {
+#Property#
+        private static bool isInit;
+        private static string content;
+        private static string[] lines;
+        private static Dictionary<string, #ClassName#> dics = new Dictionary<string, #ClassName#>();
+
+        public #ClassName#(string line) {
+            try {
+                string[] values = line.Split(',');
+#ReadContent#
+            } catch (Exception e) {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public static void Init() {
+            if (isInit) {
+                return;
+            }
+            ReadCSV.Instance.Read("#ClassName#", out content, out lines);
+            dics.Clear();
+            for (int i = 0; i < lines.Length; i++) {
+                if (i > 2) {
+                    #ClassName# config = new #ClassName#(lines[i]);
+                    dics.Add(config.Sign, config);
+                }
+            }
+
+            isInit = true;
+        }
+
+        public static #ClassName# Get(string sign) {
+            if (dics.TryGetValue(sign, out #ClassName# config)) {
+                return config;
+            }
+
+            return null;
+        }
+
+        public static List<string> GetKeys() {
+              if (!isInit) {
+                   Init();
+              }
+              var keys = new List<string>();
+              keys.AddRange(dics.Keys);
+              return keys;
+        }
+    }
+}

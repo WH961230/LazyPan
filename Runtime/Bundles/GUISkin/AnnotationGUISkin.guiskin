@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12001, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: LogoGUISkin
+  m_Name: AnnotationGUISkin
   m_EditorClassIdentifier: 
   m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   m_box:
@@ -269,8 +269,8 @@ MonoBehaviour:
       m_Top: 0
       m_Bottom: 0
     m_Font: {fileID: 0}
-    m_FontSize: 50
-    m_FontStyle: 1
+    m_FontSize: 12
+    m_FontStyle: 0
     m_Alignment: 4
     m_WordWrap: 1
     m_RichText: 1

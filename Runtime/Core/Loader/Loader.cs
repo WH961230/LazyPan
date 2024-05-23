@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.SceneManagement;
 
 namespace LazyPan {
@@ -17,7 +19,7 @@ namespace LazyPan {
         }
 
         public static GameSetting LoadGameSetting() {
-            return Addressables.LoadAssetAsync<GameSetting>("Assets/LazyPan/Bundles/Configs/Setting/GameSetting.asset").WaitForCompletion();
+            return Addressables.LoadAssetAsync<GameSetting>($"Packages/evoreek.lazypan/Runtime/Bundles/GameSetting/GameSetting.asset").WaitForCompletion();
         }
 
         public static T LoadAsset<T>(AssetType type, string assetName) {
@@ -30,7 +32,7 @@ namespace LazyPan {
             return Addressables.LoadAssetAsync<T>(addressData).WaitForCompletion();
         }
 
-        // 加载游戏物体
+        /*加载游戏物体*/
         public static GameObject LoadGo(string finalName, string assetName, Transform parent, bool active) {
             (string, string) addressData = LoadGameSetting().GetAddress(AssetType.PREFAB);
             GameObject go = Addressables.InstantiateAsync(string.Concat(addressData.Item1, assetName, addressData.Item2), parent).WaitForCompletion();
