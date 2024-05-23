@@ -5,7 +5,7 @@ using UnityEngine;
 namespace LazyPan {
 #if UNITY_EDITOR
     public class ToolSet : EditorWindow {
-        [MenuItem("[LP] 工具组/[LP] 点位工具组/[LP] 收集点位组")]
+        [MenuItem("LazyPan/点位工具组/收集点位组")]
         public static void CollectPointsToSetting() {
             if (Selection.gameObjects.Length == 0 || Selection.gameObjects.Length > 1) {
                 EditorUtility.DisplayDialog("错误", "请选择有且仅有一个物体作为父物体!", "了解");
@@ -40,7 +40,7 @@ namespace LazyPan {
             AssetDatabase.SaveAssets();
         }
 
-        [MenuItem("[LP] 工具组/[LP] 点位工具组/[LP] 创建点位组")]
+        [MenuItem("LazyPan/点位工具组/创建点位组")]
         public static void CreatePointsToSetting() {
             if (Selection.count == 0) {
                 EditorUtility.DisplayDialog("错误", "请选择一个点位配置文件!", "了解");
@@ -69,7 +69,7 @@ namespace LazyPan {
             }
         }
 
-        [MenuItem("[LP] 工具组/[LP] 点位工具组/[LP] 说明")]
+        [MenuItem("LazyPan/点位工具组/说明")]
         public static void Explain() {
             string title = "点位工具组 说明";
             string content = "收集点位组：\n收集选中的父物体之下的所有子物体的位置和方向数据录入点位配置，配置名为父物体的名字\n\n";
