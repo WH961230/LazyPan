@@ -16,7 +16,22 @@ MonoBehaviour:
   m_Data:
     m_SerializedData: []
   m_GUID: 103f18e7c70ba1c49878a024f388ff45
-  m_SerializeEntries: []
+  m_SerializeEntries:
+  - m_GUID: 736ce7b2f7c4d4349abef396e0db8cc2
+    m_Address: Packages/evoreek.lazypan/Runtime/AButtonGUISkin.guiskin
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f47d7a8844a808244bbfd9674980d2ba
+    m_Address: Packages/evoreek.lazypan/Runtime/LogoGUISkin.guiskin
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fece32e9bcc49084a8a7d00bc3e61b7b
+    m_Address: Packages/evoreek.lazypan/Runtime/TitleGUISkin.guiskin
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: d407ae7fb3998f544bdcd29cd4416fca, type: 2}
   m_SchemaSet:
