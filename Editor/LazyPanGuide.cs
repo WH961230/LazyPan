@@ -1,6 +1,7 @@
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEngine.AddressableAssets;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
@@ -62,6 +63,7 @@ public class LazyPanGuide : EditorWindow {
             GUILayout.BeginHorizontal();
             style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
             if (GUILayout.Button("点击此处 自动配置Addressable资源", style)) {
+                CreateAddressableAsset();
                 AutoInstallAddressableData();
             }
             GUILayout.EndHorizontal();
@@ -117,7 +119,17 @@ public class LazyPanGuide : EditorWindow {
         AssetDatabase.Refresh();
     }
 
+    private void CreateAddressableAsset() {
+        AddressableAssetSettingsDefaultObject.Settings = AddressableAssetSettings.Create(AddressableAssetSettingsDefaultObject.kDefaultConfigFolder,
+            AddressableAssetSettingsDefaultObject.kDefaultConfigAssetName, true, true);
+    }
+
     private void AutoInstallAddressableData() {
+        /*游戏总配置*/
+        string targetGameSettingPath = $"Packages/evoreek.lazypan/Runtime/Bundles/GameSetting/GameSetting.asset";
+        AddAssetToAddressableEntries(targetGameSettingPath);
+
+        /*游戏不同类型资源加载目录*/
         string targetBundlesPrefabsGlobalPath = "Assets/LazyPan/Bundles/Prefabs/Global";
         string targetBundlesPrefabsObjPath = "Assets/LazyPan/Bundles/Prefabs/Obj";
         string targetBundlesPrefabsToolPath = "Assets/LazyPan/Bundles/Prefabs/Tool";
