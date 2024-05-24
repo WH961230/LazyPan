@@ -1,3 +1,7 @@
 ﻿Sign,Flow,Type,Name,SetUpLocationInformationSign,SetUpBehaviourSign
 string,string,string,string,string,string
 标识,流程,类型,名称,创建绑定的位置信息,创建绑定行为标识
+Obj_Camera_Camera,SceneA,Camera,开始场景A相机,,Behaviour_Auto_FollowPlayer
+Obj_Player_Player,SceneA,Player,开始场景A玩家,LocationInf_Single_SceneA_Player,Behaviour_Input_PlayerMovement
+Obj_Camera_Camera,SceneB,Camera,战斗场景B相机,,Behaviour_Auto_FollowPlayer
+Obj_Player_Player,SceneB,Player,战斗场景B玩家,LocationInf_Single_SceneB_Player,Behaviour_Input_PlayerMovement

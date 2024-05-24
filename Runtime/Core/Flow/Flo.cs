@@ -10,8 +10,8 @@ namespace LazyPan {
         public void Preload() {
             string sceneName = SceneManager.GetActiveScene().name;
             SceneConfig sceneConfig = SceneConfig.Get(sceneName);
-            CurFlowSign = sceneConfig.Flow;
-            Type type = Assembly.Load("Assembly-CSharp").GetType(string.Concat("LazyPan.", sceneConfig.Flow));
+            CurFlowSign = string.Concat("Flow_", sceneConfig.Flow);
+            Type type = Assembly.Load("Assembly-CSharp").GetType(string.Concat("LazyPan.", CurFlowSign));
             Flow flow = (Flow) Activator.CreateInstance(type);
             flows.Clear();
             flows.Add(type, flow);

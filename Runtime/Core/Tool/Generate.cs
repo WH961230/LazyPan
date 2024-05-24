@@ -102,7 +102,7 @@ namespace LazyPan {
             return false;
         }
 
-        private static bool GenerateFrame() {
+        public static bool GenerateFlow() {
             /*读取配置*/
             ReadCSV.Instance.Read("FlowGenerate", out string content, out string[] lines);
             List<string> openui = new List<string>();
@@ -240,7 +240,7 @@ namespace LazyPan {
             return true;
         }
 
-        private void GenerateBehaviour() {
+        public static void GenerateBehaviour(bool isTemplate) {
             /*读取配置*/
             ReadCSV.Instance.Read("BehaviourGenerate", out string content, out string[] lines);
             LogUtil.Log(content);
@@ -292,7 +292,7 @@ namespace LazyPan {
                         }
                         log = Regex.Replace(log, "#命名空间#", curNamespace);
                         log = Regex.Replace(log, "#行为类型#", curBehaviourType);
-                        log = Regex.Replace(log, "#行为标识#", string.Concat(curBehaviourSign, "_Template"));
+                        log = Regex.Replace(log, "#行为标识#", isTemplate ? string.Concat(curBehaviourSign, "_Template") : curBehaviourSign);
 
                         string customerMethod = "";
 
@@ -307,7 +307,12 @@ namespace LazyPan {
                         log = Regex.Replace(log, "#自定义方法#", customerMethod);
 
                         /*创建脚本*/
-                        var createPath = $"Assets/LazyPan/Scripts/GamePlay/Behaviour/Template/Behaviour_{type}_{string.Concat(curBehaviourSign, "_Template")}.cs";
+                        string createPath = "";
+                        if (isTemplate) {
+                            createPath = $"Assets/LazyPan/Scripts/GamePlay/Behaviour/Template/Behaviour_{type}_{string.Concat(curBehaviourSign, "_Template")}.cs";
+                        } else {
+                            createPath = $"Assets/LazyPan/Scripts/GamePlay/Behaviour/Behaviour_{type}_{curBehaviourSign}.cs";
+                        }
                         var streamWriter = new StreamWriter(createPath, false, new UTF8Encoding(true, false));
                         streamWriter.Write(log);
                         streamWriter.Close();
@@ -329,11 +334,11 @@ namespace LazyPan {
                 }
             } else if (focusedWindow.titleContent.text == "快速生成游戏框架根据流程配置") {
                 if (GUILayout.Button("生成")) {
-                    GenerateFrame();
+                    GenerateFlow();
                 }
             } else if (focusedWindow.titleContent.text == "快速生成游戏行为根据行为配置") {
                 if (GUILayout.Button("生成")) {
-                    GenerateBehaviour();
+                    GenerateBehaviour(true);
                 }
             }
         }

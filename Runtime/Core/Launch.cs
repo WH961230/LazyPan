@@ -5,6 +5,7 @@ namespace LazyPan {
     public class Launch : MonoBehaviour {
         public static Launch instance;
         public bool OpenConsole;
+        public string StageLoadScene;
         private void Awake() {
             if (instance == null) {
                 instance = this;
@@ -20,7 +21,7 @@ namespace LazyPan {
 
                 ConsoleEx.Instance.Init(OpenConsole);
                     
-                StageLoad("Begin");
+                StageLoad(StageLoadScene);
             }
         }
 

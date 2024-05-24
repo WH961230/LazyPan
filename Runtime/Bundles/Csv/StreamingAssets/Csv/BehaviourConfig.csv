@@ -1,3 +1,5 @@
 ﻿Sign,Name,Description
 string,string,string
 标识,名字,描述
+Behaviour_Auto_FollowPlayer,跟随玩家,跟随玩家
+Behaviour_Input_PlayerMovement,玩家输入移动,玩家输入移动

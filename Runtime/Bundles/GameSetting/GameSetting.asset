@@ -22,4 +22,7 @@ MonoBehaviour:
   - AssetType: 0
     AssetAddress: Assets/LazyPan/Bundles/Configs/
     AssetSuffix: .asset
+  - AssetType: 2
+    AssetAddress: Assets/LazyPan/Bundles/Configs/Input/
+    AssetSuffix: .inputactions
   CommonAssetAddress: []

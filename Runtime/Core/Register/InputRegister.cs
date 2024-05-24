@@ -15,42 +15,39 @@ namespace LazyPan {
         public static string C = "Global/C";
         public static string RightClick = "Global/RightClick";
         public static string Space = "Global/Space";
-        private LazyPanInputControl inputControl;
+        private InputActionAsset inputActionAsset;
+        private string inputControlKey = "LazyPanInputControl";
 
         public void Load(string actionName, Action<InputAction.CallbackContext> action) {
-            if (inputControl == null) { 
-                inputControl = new LazyPanInputControl();
+            if (inputActionAsset == null) { 
+                inputActionAsset = Loader.LoadAsset<InputActionAsset>(AssetType.INPUTACTIONASSET, inputControlKey);
             }
-            inputControl.Enable();
-            inputControl.FindAction(actionName).started += action;
-            inputControl.FindAction(actionName).performed += action;
-            inputControl.FindAction(actionName).canceled += action;
+            inputActionAsset.Enable();
+            inputActionAsset.FindAction(actionName).started += action;
+            inputActionAsset.FindAction(actionName).performed += action;
+            inputActionAsset.FindAction(actionName).canceled += action;
         }
 
         public void UnLoad(string actionName, Action<InputAction.CallbackContext> action) {
-            if (inputControl == null) { 
-                inputControl = new LazyPanInputControl();
+            if (inputActionAsset == null) { 
+                inputActionAsset = Loader.LoadAsset<InputActionAsset>(AssetType.INPUTACTIONASSET, inputControlKey);
             }
-            inputControl.Enable();
-            inputControl.FindAction(actionName).started -= action;
-            inputControl.FindAction(actionName).performed -= action;
-            inputControl.FindAction(actionName).canceled -= action;
+            inputActionAsset.Enable();
+            inputActionAsset.FindAction(actionName).started -= action;
+            inputActionAsset.FindAction(actionName).performed -= action;
+            inputActionAsset.FindAction(actionName).canceled -= action;
         }
 
         public void Dispose(string actionName) {
-            if (inputControl == null) { 
-                inputControl = new LazyPanInputControl();
+            if (inputActionAsset != null) { 
+                inputActionAsset.FindAction(actionName).Dispose();
             }
-            inputControl.Enable();
-            inputControl.FindAction(actionName).Dispose();
         }
 
         public void Dispose() {
-            if (inputControl == null) {
-                inputControl = new LazyPanInputControl();
+            if (inputActionAsset != null) {
+                inputActionAsset.Disable();
             }
-            inputControl.Enable();
-            inputControl.Dispose();
         }
     }
 }

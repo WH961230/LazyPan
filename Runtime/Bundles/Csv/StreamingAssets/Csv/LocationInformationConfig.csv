@@ -1,3 +1,5 @@
 ﻿Sign,Description
 string,string
 标识,描述
+LocationInf_Single_SceneA_Player,开始场景A玩家初始方位
+LocationInf_Single_SceneB_Player,战斗场景B玩家初始方位

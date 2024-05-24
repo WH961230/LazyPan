@@ -35,6 +35,15 @@ public partial class @LazyPanInputControl: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Console"",
+                    ""type"": ""Button"",
+                    ""id"": ""c0040cd7-2202-4fb4-a812-b94fc7e4f445"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -48,6 +57,17 @@ public partial class @LazyPanInputControl: IInputActionCollection2, IDisposable
                     ""action"": ""Space"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""53e77e4d-fb7a-45a6-80c8-22ef36d9dc02"",
+                    ""path"": ""<Keyboard>/backquote"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Console"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -57,6 +77,7 @@ public partial class @LazyPanInputControl: IInputActionCollection2, IDisposable
         // Global
         m_Global = asset.FindActionMap("Global", throwIfNotFound: true);
         m_Global_Space = m_Global.FindAction("Space", throwIfNotFound: true);
+        m_Global_Console = m_Global.FindAction("Console", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -119,11 +140,13 @@ public partial class @LazyPanInputControl: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_Global;
     private List<IGlobalActions> m_GlobalActionsCallbackInterfaces = new List<IGlobalActions>();
     private readonly InputAction m_Global_Space;
+    private readonly InputAction m_Global_Console;
     public struct GlobalActions
     {
         private @LazyPanInputControl m_Wrapper;
         public GlobalActions(@LazyPanInputControl wrapper) { m_Wrapper = wrapper; }
         public InputAction @Space => m_Wrapper.m_Global_Space;
+        public InputAction @Console => m_Wrapper.m_Global_Console;
         public InputActionMap Get() { return m_Wrapper.m_Global; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -136,6 +159,9 @@ public partial class @LazyPanInputControl: IInputActionCollection2, IDisposable
             @Space.started += instance.OnSpace;
             @Space.performed += instance.OnSpace;
             @Space.canceled += instance.OnSpace;
+            @Console.started += instance.OnConsole;
+            @Console.performed += instance.OnConsole;
+            @Console.canceled += instance.OnConsole;
         }
 
         private void UnregisterCallbacks(IGlobalActions instance)
@@ -143,6 +169,9 @@ public partial class @LazyPanInputControl: IInputActionCollection2, IDisposable
             @Space.started -= instance.OnSpace;
             @Space.performed -= instance.OnSpace;
             @Space.canceled -= instance.OnSpace;
+            @Console.started -= instance.OnConsole;
+            @Console.performed -= instance.OnConsole;
+            @Console.canceled -= instance.OnConsole;
         }
 
         public void RemoveCallbacks(IGlobalActions instance)
@@ -163,5 +192,6 @@ public partial class @LazyPanInputControl: IInputActionCollection2, IDisposable
     public interface IGlobalActions
     {
         void OnSpace(InputAction.CallbackContext context);
+        void OnConsole(InputAction.CallbackContext context);
     }
 }

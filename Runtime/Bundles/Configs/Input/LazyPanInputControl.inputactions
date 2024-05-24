@@ -1,5 +1,5 @@
 {
-    "name": "InputActionsAsset",
+    "name": "LazyPanInputControl",
     "maps": [
         {
             "name": "Global",
@@ -9,6 +9,15 @@
                     "name": "Space",
                     "type": "Button",
                     "id": "125b0dc6-02a0-4f54-aa98-285f8ce0c8c1",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Console",
+                    "type": "Button",
+                    "id": "c0040cd7-2202-4fb4-a812-b94fc7e4f445",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -24,6 +33,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Space",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "53e77e4d-fb7a-45a6-80c8-22ef36d9dc02",
+                    "path": "<Keyboard>/backquote",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Console",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

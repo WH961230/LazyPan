@@ -1,3 +1,15 @@
 ﻿FlowCode,Flow,LifeCycleCode,LifeCycle,StageCode,Stage,SignCode,Sign
 string,string,string,string,string,string,string,string
 流程代码标识,流程,生命周期代码标识,生命周期,阶段代码标识,阶段,标识代码标识,实体
+SceneA,开始场景A,open_ui,创建,Init,初始化,UI_SceneA,开始场景A界面
+SceneA,开始场景A,load_entity,创建,Init,初始化,Obj_Camera_Camera,开始场景A相机
+SceneA,开始场景A,load_entity,创建,Init,初始化,Obj_Player_Player,开始场景A玩家
+SceneA,开始场景A,unload_entity,销毁,Clear,清除,Obj_Player_Player,
+SceneA,开始场景A,unload_entity,销毁,Clear,清除,Obj_Camera_Camera,
+SceneA,开始场景A,close_ui,销毁,Clear,清除,UI_SceneA,
+SceneB,战斗场景B,open_ui,创建,Init,初始化,UI_SceneB,战斗场景B界面
+SceneB,战斗场景B,load_entity,创建,Init,初始化,Obj_Camera_Camera,战斗场景B相机
+SceneB,战斗场景B,load_entity,创建,Init,初始化,Obj_Player_Player,战斗场景B玩家
+SceneB,战斗场景B,unload_entity,销毁,Clear,清除,Obj_Player_Player,
+SceneB,战斗场景B,unload_entity,销毁,Clear,清除,Obj_Camera_Camera,
+SceneB,战斗场景B,close_ui,销毁,Clear,清除,UI_SceneB,

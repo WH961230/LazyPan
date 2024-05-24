@@ -1,3 +1,7 @@
 ﻿BehaviourCode,Behaviour,BehaviourTypeCode,MethodCode,Method
 string,string,string,string,string
 行为代码标识,行为,行为类型代码标识,方法代码标识,方法
+FollowPlayer,跟随玩家,Auto,Init,初始化
+FollowPlayer,跟随玩家,Auto,Clear,清除
+PlayerMovement,玩家输入移动,Input,Init,初始化
+PlayerMovement,玩家输入移动,Input,Clear,清除
