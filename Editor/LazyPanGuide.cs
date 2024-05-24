@@ -111,19 +111,14 @@ public class LazyPanGuide : EditorWindow {
                 AutoGenerateBehaviour();
             }
 
-            if (GUILayout.Button("点击此处 自动生成行为模板(需要手动修改)", style)) {
+            if (GUILayout.Button("点击此处 自动生成行为模板(需要手动修改 将生成的 Behaviour_Template 后面的 Template 删除且放到父层级)", style)) {
                 AutoGenerateBehaviourTemplate();
             }
-            GUILayout.EndHorizontal();
-            
-            GUILayout.BeginHorizontal();
-            style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
-            GUILayout.Label("第七步: 手动将生成的 Behaviour_Template 后面的 Template 删除且放到父层级", style);
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
-            GUILayout.Label("第八步: 打开入口场景 Launch", style);
+            GUILayout.Label("第七步: 打开入口场景 Launch", style);
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
