@@ -1,6 +1,9 @@
 {
     "name": "com.alelievr.NodeGraphProcessor.Runtime",
-    "references": [],
+    "rootNamespace": "",
+    "references": [
+        "GUID:64f7e3d62910349489676a7556819627"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
@@ -8,5 +11,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }
