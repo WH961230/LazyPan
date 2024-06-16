@@ -9,6 +9,7 @@ public class RuntimeGraph : MonoBehaviour
 	public ProcessGraphProcessor	processor;
 
 	public GameObject	assignedGameObject;
+	public GameObject	assignedCompGameObject;
 
 	private void Start()
 	{
@@ -24,6 +25,7 @@ public class RuntimeGraph : MonoBehaviour
 		{
 			graph.SetParameterValue("Input", (float)i++);
 			graph.SetParameterValue("GameObject", assignedGameObject);
+			graph.SetParameterValue("CompGameObject", assignedCompGameObject);
 			processor.Run();
 		}
     }
