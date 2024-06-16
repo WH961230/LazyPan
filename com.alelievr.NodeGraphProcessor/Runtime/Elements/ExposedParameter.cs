@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using LazyPan;
 using UnityEngine;
 
 namespace GraphProcessor
@@ -380,15 +379,6 @@ namespace GraphProcessor
 
         public override object value { get => val; set => val = (GameObject)value; }
         public override Type GetValueType() => typeof(GameObject);
-    }
-
-    [System.Serializable]
-    public class CompParameter : ExposedParameter
-    {
-        [SerializeField] Comp val;
-    
-        public override object value { get => val; set => val = (Comp)value; }
-        public override Type GetValueType() => typeof(Comp);
     }
 
     [System.Serializable]
