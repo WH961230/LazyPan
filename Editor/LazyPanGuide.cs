@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using LazyPan;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Settings;
@@ -9,307 +8,396 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-public class LazyPanGuide : EditorWindow {
-    private bool isFoldout = true;
-    public void OnCustomGUI(float areaX) {
-        GUILayout.BeginArea(new Rect(areaX, 60, Screen.width, Screen.height));
+namespace LazyPan {
+    public class LazyPanGuide : EditorWindow {
+        private bool isFoldout = true;
 
-        GUILayout.BeginHorizontal();
-        GUIStyle style = LazyPanTool.GetGUISkin("LogoGUISkin").GetStyle("label");
-        GUILayout.Label("LAZYPAN", style);
-        GUILayout.EndHorizontal();
-
-        GUILayout.BeginHorizontal();
-        style = LazyPanTool.GetGUISkin("AnnotationGUISkin").GetStyle("label");
-        GUILayout.Label("@LazyPan开发组工具 version 0.0.1", style);
-        GUILayout.EndHorizontal();
-
-        EditorStyles.foldout.fontSize = 20;
-        EditorStyles.foldout.fontStyle = FontStyle.Bold;
-        isFoldout = EditorGUILayout.Foldout(isFoldout, "LazyPan 环境配置", true);
-        if (isFoldout) {
-            GUILayout.BeginArea(new Rect(0, 120, Screen.width, Screen.height));
+        public void OnCustomGUI(float areaX) {
+            GUILayout.BeginArea(new Rect(areaX, 60, Screen.width, Screen.height));
 
             GUILayout.BeginHorizontal();
-            style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
-            GUILayout.Label("第一步: 点击按钮自动创建框架目录", style);
+            GUIStyle style = LazyPanTool.GetGUISkin("LogoGUISkin").GetStyle("label");
+            GUILayout.Label("LAZYPAN", style);
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
-            style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
-            if (GUILayout.Button("点击此处 自动创建框架目录", style)) {
-                CreateBaseFilePath();
+            style = LazyPanTool.GetGUISkin("AnnotationGUISkin").GetStyle("label");
+            GUILayout.Label("@LazyPan开发组工具 version 0.0.1", style);
+            GUILayout.EndHorizontal();
+
+            EditorStyles.foldout.fontSize = 20;
+            EditorStyles.foldout.fontStyle = FontStyle.Bold;
+            isFoldout = EditorGUILayout.Foldout(isFoldout, "LazyPan 环境配置", true);
+            if (isFoldout) {
+                GUILayout.BeginArea(new Rect(0, 120, Screen.width, Screen.height));
+
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
+                GUILayout.Label("第一步: 点击按钮自动创建框架目录", style);
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
+                if (GUILayout.Button("点击此处 自动创建框架目录", style)) {
+                    CreateBaseFilePath();
+                }
+
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
+                GUILayout.Label("第二步: 点击按钮自动拷贝核心文件", style);
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
+                if (GUILayout.Button("点击此处 自动拷贝核心文件（拷贝场景 CSV游戏配置 游戏自动化生成的Txt模板 游戏输入系统 等）", style)) {
+                    CopyFilesToDirectory("Bundles/Configs/Input", "LazyPan/Bundles/Configs/Input");
+                    CopyFilesToDirectory("Bundles/Configs/Setting", "LazyPan/Bundles/Configs/Setting");
+                    CopyFilesToDirectory("Bundles/Configs/Txt", "LazyPan/Bundles/Configs/Txt");
+                    CopyFilesToDirectory("Bundles/Prefabs/Global", "LazyPan/Bundles/Prefabs/Global");
+                    CopyFilesToDirectory("Bundles/Prefabs/Obj", "LazyPan/Bundles/Prefabs/Obj");
+                    CopyFilesToDirectory("Bundles/Prefabs/Tool", "LazyPan/Bundles/Prefabs/Tool");
+                    CopyFilesToDirectory("Bundles/Prefabs/UI", "LazyPan/Bundles/Prefabs/UI");
+                    CopyFilesToDirectory("Bundles/Scenes", "LazyPan/Bundles/Scenes");
+                    CopyFilesToDirectory("Bundles/TextMeshPro", "");
+                    CopyFilesToDirectory("Bundles/Csv/StreamingAssets/Csv", "StreamingAssets/Csv");
+                    DecompressFileToDirectory("Core/NodeGraphProcessor.zip",
+                        "LazyPan/Scripts/GamePlay/Config/NodeGraphProcessor");
+                }
+
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
+                GUILayout.Label("第三步: 点击按钮自动配置Addressable资源", style);
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
+                if (GUILayout.Button("点击此处 自动配置Addressable资源", style)) {
+                    CreateAddressableAsset();
+                    AutoInstallAddressableData();
+                }
+
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
+                GUILayout.Label("第四步: 点击按钮自动装载场景到BuildSettings", style);
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
+                if (GUILayout.Button("点击此处 自动装载场景到BuildSettings", style)) {
+                    MoveSceneToBuildSettings();
+                }
+
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
+                GUILayout.Label("第五步: 点击按钮自动创建流程", style);
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
+                if (GUILayout.Button("点击此处 自动创建框架流程", style)) {
+                    AutoGenerateFlow();
+                }
+
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
+                GUILayout.Label("第六步: 点击按钮自动生成行为(或模板)", style);
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
+                if (GUILayout.Button("点击此处 自动生成行为", style)) {
+                    AutoGenerateBehaviour();
+                }
+
+                if (GUILayout.Button("点击此处 自动生成行为模板(需要手动修改 将生成的 Behaviour_Template 后面的 Template 删除且放到父层级)", style)) {
+                    AutoGenerateBehaviourTemplate();
+                }
+
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
+                GUILayout.Label("第七步: 打开入口场景 Launch", style);
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
+                if (GUILayout.Button("点击此处 打开入口场景Launch 测试并运行", style)) {
+                    TestSceneAndPlay();
+                }
+
+                GUILayout.EndHorizontal();
+
+                GUILayout.EndArea();
             }
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
-            GUILayout.Label("第二步: 点击按钮自动拷贝核心文件", style);
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
-            if (GUILayout.Button("点击此处 自动拷贝核心文件（拷贝场景 CSV游戏配置 游戏自动化生成的Txt模板 游戏输入系统 等）", style)) {
-                CopyFilesToDirectory("Bundles/Configs/Input", "LazyPan/Bundles/Configs/Input");
-                CopyFilesToDirectory("Bundles/Configs/Setting", "LazyPan/Bundles/Configs/Setting");
-                CopyFilesToDirectory("Bundles/Configs/Txt", "LazyPan/Bundles/Configs/Txt");
-                CopyFilesToDirectory("Bundles/Prefabs/Global", "LazyPan/Bundles/Prefabs/Global");
-                CopyFilesToDirectory("Bundles/Prefabs/Obj", "LazyPan/Bundles/Prefabs/Obj");
-                CopyFilesToDirectory("Bundles/Prefabs/Tool", "LazyPan/Bundles/Prefabs/Tool");
-                CopyFilesToDirectory("Bundles/Prefabs/UI", "LazyPan/Bundles/Prefabs/UI");
-                CopyFilesToDirectory("Bundles/Scenes", "LazyPan/Bundles/Scenes");
-                CopyFilesToDirectory("Bundles/TextMeshPro", "");
-                CopyFilesToDirectory("Bundles/Csv/StreamingAssets/Csv", "StreamingAssets/Csv");
-                DecompressFileToDirectory("Core/NodeGraphProcessor.zip", "LazyPan/Scripts/GamePlay/Config/NodeGraphProcessor");
-            }
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
-            GUILayout.Label("第三步: 点击按钮自动配置Addressable资源", style);
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
-            if (GUILayout.Button("点击此处 自动配置Addressable资源", style)) {
-                CreateAddressableAsset();
-                AutoInstallAddressableData();
-            }
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
-            GUILayout.Label("第四步: 点击按钮自动装载场景到BuildSettings", style);
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
-            if (GUILayout.Button("点击此处 自动装载场景到BuildSettings", style)) {
-                MoveSceneToBuildSettings();
-            }
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
-            GUILayout.Label("第五步: 点击按钮自动创建流程", style);
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
-            if (GUILayout.Button("点击此处 自动创建框架流程", style)) {
-                AutoGenerateFlow();
-            }
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
-            GUILayout.Label("第六步: 点击按钮自动生成行为(或模板)", style);
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
-            if (GUILayout.Button("点击此处 自动生成行为", style)) {
-                AutoGenerateBehaviour();
-            }
-
-            if (GUILayout.Button("点击此处 自动生成行为模板(需要手动修改 将生成的 Behaviour_Template 后面的 Template 删除且放到父层级)", style)) {
-                AutoGenerateBehaviourTemplate();
-            }
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
-            GUILayout.Label("第七步: 打开入口场景 Launch", style);
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginHorizontal();
-            style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
-            if (GUILayout.Button("点击此处 打开入口场景Launch 测试并运行", style)) {
-                TestSceneAndPlay();
-            }
-            GUILayout.EndHorizontal();
 
             GUILayout.EndArea();
         }
 
-        GUILayout.EndArea();
-    }
+        private void CreateBaseFilePath() {
+            string targetBundlesPath = "Assets/LazyPan/Bundles";
 
-    private void CreateBaseFilePath() {
-        string targetBundlesPath = "Assets/LazyPan/Bundles";
-        
-        string targetBundlesConfigsPath = "Assets/LazyPan/Bundles/Configs";
-        string targetBundlesConfigsInputPath = "Assets/LazyPan/Bundles/Configs/Input";
-        string targetBundlesConfigsTxtPath = "Assets/LazyPan/Bundles/Configs/Txt";
-        string targetBundlesConfigsSettingPath = "Assets/LazyPan/Bundles/Configs/Setting";
-        string targetBundlesConfigsSettingLocationInformationSettingPath = "Assets/LazyPan/Bundles/Configs/Setting/LocationInformationSetting";
+            string targetBundlesConfigsPath = "Assets/LazyPan/Bundles/Configs";
+            string targetBundlesConfigsInputPath = "Assets/LazyPan/Bundles/Configs/Input";
+            string targetBundlesConfigsTxtPath = "Assets/LazyPan/Bundles/Configs/Txt";
+            string targetBundlesConfigsSettingPath = "Assets/LazyPan/Bundles/Configs/Setting";
+            string targetBundlesConfigsSettingLocationInformationSettingPath =
+                "Assets/LazyPan/Bundles/Configs/Setting/LocationInformationSetting";
 
-        string targetBundlesImagesPath = "Assets/LazyPan/Bundles/Images";
-        
-        string targetBundlesMaterialsPath = "Assets/LazyPan/Bundles/Materials";
+            string targetBundlesImagesPath = "Assets/LazyPan/Bundles/Images";
 
-        string targetBundlesPrefabsPath = "Assets/LazyPan/Bundles/Prefabs";
-        string targetBundlesPrefabsGlobalPath = "Assets/LazyPan/Bundles/Prefabs/Global";
-        string targetBundlesPrefabsObjPath = "Assets/LazyPan/Bundles/Prefabs/Obj";
-        string targetBundlesPrefabsToolPath = "Assets/LazyPan/Bundles/Prefabs/Tool";
-        string targetBundlesPrefabsUIPath = "Assets/LazyPan/Bundles/Prefabs/UI";
+            string targetBundlesMaterialsPath = "Assets/LazyPan/Bundles/Materials";
 
-        string targetScriptsPath = "Assets/LazyPan/Scripts";
-        
-        string targetScriptsGamePlayPath = "Assets/LazyPan/Scripts/GamePlay";
-        string targetScriptsGamePlayBehaviourPath = "Assets/LazyPan/Scripts/GamePlay/Behaviour";
-        string targetScriptsGamePlayBehaviourTemplatePath = "Assets/LazyPan/Scripts/GamePlay/Behaviour/Template";
-        string targetScriptsGamePlayConfigPath = "Assets/LazyPan/Scripts/GamePlay/Config";
-        string targetScriptsGamePlayDataPath = "Assets/LazyPan/Scripts/GamePlay/Data";
-        string targetScriptsGamePlayFlowPath = "Assets/LazyPan/Scripts/GamePlay/Flow";
+            string targetBundlesPrefabsPath = "Assets/LazyPan/Bundles/Prefabs";
+            string targetBundlesPrefabsGlobalPath = "Assets/LazyPan/Bundles/Prefabs/Global";
+            string targetBundlesPrefabsObjPath = "Assets/LazyPan/Bundles/Prefabs/Obj";
+            string targetBundlesPrefabsToolPath = "Assets/LazyPan/Bundles/Prefabs/Tool";
+            string targetBundlesPrefabsUIPath = "Assets/LazyPan/Bundles/Prefabs/UI";
 
-        if (!Directory.Exists(targetBundlesPath)) { Directory.CreateDirectory(targetBundlesPath); }
-        if (!Directory.Exists(targetBundlesConfigsPath)) { Directory.CreateDirectory(targetBundlesConfigsPath); }
-        if (!Directory.Exists(targetBundlesConfigsInputPath)) { Directory.CreateDirectory(targetBundlesConfigsInputPath); }
-        if (!Directory.Exists(targetBundlesConfigsTxtPath)) { Directory.CreateDirectory(targetBundlesConfigsTxtPath); }
-        if (!Directory.Exists(targetBundlesConfigsSettingPath)) { Directory.CreateDirectory(targetBundlesConfigsSettingPath); }
-        if (!Directory.Exists(targetBundlesConfigsSettingLocationInformationSettingPath)) { Directory.CreateDirectory(targetBundlesConfigsSettingLocationInformationSettingPath); }
-        if (!Directory.Exists(targetBundlesImagesPath)) { Directory.CreateDirectory(targetBundlesImagesPath); }
-        if (!Directory.Exists(targetBundlesMaterialsPath)) { Directory.CreateDirectory(targetBundlesMaterialsPath); }
-        if (!Directory.Exists(targetBundlesPrefabsPath)) { Directory.CreateDirectory(targetBundlesPrefabsPath); }
-        if (!Directory.Exists(targetBundlesPrefabsGlobalPath)) { Directory.CreateDirectory(targetBundlesPrefabsGlobalPath); }
-        if (!Directory.Exists(targetBundlesPrefabsObjPath)) { Directory.CreateDirectory(targetBundlesPrefabsObjPath); }
-        if (!Directory.Exists(targetBundlesPrefabsToolPath)) { Directory.CreateDirectory(targetBundlesPrefabsToolPath); }
-        if (!Directory.Exists(targetBundlesPrefabsUIPath)) { Directory.CreateDirectory(targetBundlesPrefabsUIPath); }
-        if (!Directory.Exists(targetScriptsPath)) { Directory.CreateDirectory(targetScriptsPath); }
-        if (!Directory.Exists(targetScriptsGamePlayPath)) { Directory.CreateDirectory(targetScriptsGamePlayPath); }
-        if (!Directory.Exists(targetScriptsGamePlayBehaviourPath)) { Directory.CreateDirectory(targetScriptsGamePlayBehaviourPath); }
-        if (!Directory.Exists(targetScriptsGamePlayBehaviourTemplatePath)) { Directory.CreateDirectory(targetScriptsGamePlayBehaviourTemplatePath); }
-        if (!Directory.Exists(targetScriptsGamePlayConfigPath)) { Directory.CreateDirectory(targetScriptsGamePlayConfigPath); }
-        if (!Directory.Exists(targetScriptsGamePlayDataPath)) { Directory.CreateDirectory(targetScriptsGamePlayDataPath); }
-        if (!Directory.Exists(targetScriptsGamePlayFlowPath)) { Directory.CreateDirectory(targetScriptsGamePlayFlowPath); }
-        AssetDatabase.Refresh();
-    }
+            string targetScriptsPath = "Assets/LazyPan/Scripts";
 
-    private void CreateAddressableAsset() {
-        AddressableAssetSettingsDefaultObject.Settings = AddressableAssetSettings.Create(AddressableAssetSettingsDefaultObject.kDefaultConfigFolder,
-            AddressableAssetSettingsDefaultObject.kDefaultConfigAssetName, true, true);
-    }
+            string targetScriptsGamePlayPath = "Assets/LazyPan/Scripts/GamePlay";
+            string targetScriptsGamePlayBehaviourPath = "Assets/LazyPan/Scripts/GamePlay/Behaviour";
+            string targetScriptsGamePlayBehaviourTemplatePath = "Assets/LazyPan/Scripts/GamePlay/Behaviour/Template";
+            string targetScriptsGamePlayConfigPath = "Assets/LazyPan/Scripts/GamePlay/Config";
+            string targetScriptsGamePlayDataPath = "Assets/LazyPan/Scripts/GamePlay/Data";
+            string targetScriptsGamePlayFlowPath = "Assets/LazyPan/Scripts/GamePlay/Flow";
 
-    private void AutoInstallAddressableData() {
-        /*游戏总配置*/
-        string targetGameSettingPath = $"Packages/evoreek.lazypan/Runtime/Bundles/GameSetting/GameSetting.asset";
-        AddAssetToAddressableEntries(targetGameSettingPath);
+            if (!Directory.Exists(targetBundlesPath)) {
+                Directory.CreateDirectory(targetBundlesPath);
+            }
 
-        /*游戏配置*/
-        string targetBundlesConfigsPath = "Assets/LazyPan/Bundles/Configs";
-        if (Directory.Exists(targetBundlesConfigsPath)) { AddAssetToAddressableEntries(targetBundlesConfigsPath); }
+            if (!Directory.Exists(targetBundlesConfigsPath)) {
+                Directory.CreateDirectory(targetBundlesConfigsPath);
+            }
 
-        /*游戏不同类型资源加载目录*/
-        string targetBundlesPrefabsGlobalPath = "Assets/LazyPan/Bundles/Prefabs/Global";
-        string targetBundlesPrefabsObjPath = "Assets/LazyPan/Bundles/Prefabs/Obj";
-        string targetBundlesPrefabsToolPath = "Assets/LazyPan/Bundles/Prefabs/Tool";
-        string targetBundlesPrefabsUIPath = "Assets/LazyPan/Bundles/Prefabs/UI";
+            if (!Directory.Exists(targetBundlesConfigsInputPath)) {
+                Directory.CreateDirectory(targetBundlesConfigsInputPath);
+            }
 
-        if (Directory.Exists(targetBundlesPrefabsGlobalPath)) { AddAssetToAddressableEntries(targetBundlesPrefabsGlobalPath); }
-        if (Directory.Exists(targetBundlesPrefabsObjPath)) { AddAssetToAddressableEntries(targetBundlesPrefabsObjPath); }
-        if (Directory.Exists(targetBundlesPrefabsToolPath)) { AddAssetToAddressableEntries(targetBundlesPrefabsToolPath); }
-        if (Directory.Exists(targetBundlesPrefabsUIPath)) { AddAssetToAddressableEntries(targetBundlesPrefabsUIPath); }
+            if (!Directory.Exists(targetBundlesConfigsTxtPath)) {
+                Directory.CreateDirectory(targetBundlesConfigsTxtPath);
+            }
 
-        /*输入控制器*/
-        string targetInputControlPath = "Assets/LazyPan/Bundles/Configs/Input/LazyPanInputControl.inputactions";
-        AddAssetToAddressableEntries(targetInputControlPath);
-    }
+            if (!Directory.Exists(targetBundlesConfigsSettingPath)) {
+                Directory.CreateDirectory(targetBundlesConfigsSettingPath);
+            }
 
-    private void AddAssetToAddressableEntries(string path) {
-        Object dir = AssetDatabase.LoadAssetAtPath<Object>(path);
-        string guid = AssetDatabase.AssetPathToGUID(path);
-        if (dir != null) {
-            AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
-            if (settings != null) {
-                var group = settings.DefaultGroup;
-                if (group != null) {
-                    AddressableAssetEntry entry = group.entries.FirstOrDefault(e => e.guid == guid);
-                    if (entry == null) {
-                        entry = settings.CreateOrMoveEntry(guid, group, false, false);
+            if (!Directory.Exists(targetBundlesConfigsSettingLocationInformationSettingPath)) {
+                Directory.CreateDirectory(targetBundlesConfigsSettingLocationInformationSettingPath);
+            }
+
+            if (!Directory.Exists(targetBundlesImagesPath)) {
+                Directory.CreateDirectory(targetBundlesImagesPath);
+            }
+
+            if (!Directory.Exists(targetBundlesMaterialsPath)) {
+                Directory.CreateDirectory(targetBundlesMaterialsPath);
+            }
+
+            if (!Directory.Exists(targetBundlesPrefabsPath)) {
+                Directory.CreateDirectory(targetBundlesPrefabsPath);
+            }
+
+            if (!Directory.Exists(targetBundlesPrefabsGlobalPath)) {
+                Directory.CreateDirectory(targetBundlesPrefabsGlobalPath);
+            }
+
+            if (!Directory.Exists(targetBundlesPrefabsObjPath)) {
+                Directory.CreateDirectory(targetBundlesPrefabsObjPath);
+            }
+
+            if (!Directory.Exists(targetBundlesPrefabsToolPath)) {
+                Directory.CreateDirectory(targetBundlesPrefabsToolPath);
+            }
+
+            if (!Directory.Exists(targetBundlesPrefabsUIPath)) {
+                Directory.CreateDirectory(targetBundlesPrefabsUIPath);
+            }
+
+            if (!Directory.Exists(targetScriptsPath)) {
+                Directory.CreateDirectory(targetScriptsPath);
+            }
+
+            if (!Directory.Exists(targetScriptsGamePlayPath)) {
+                Directory.CreateDirectory(targetScriptsGamePlayPath);
+            }
+
+            if (!Directory.Exists(targetScriptsGamePlayBehaviourPath)) {
+                Directory.CreateDirectory(targetScriptsGamePlayBehaviourPath);
+            }
+
+            if (!Directory.Exists(targetScriptsGamePlayBehaviourTemplatePath)) {
+                Directory.CreateDirectory(targetScriptsGamePlayBehaviourTemplatePath);
+            }
+
+            if (!Directory.Exists(targetScriptsGamePlayConfigPath)) {
+                Directory.CreateDirectory(targetScriptsGamePlayConfigPath);
+            }
+
+            if (!Directory.Exists(targetScriptsGamePlayDataPath)) {
+                Directory.CreateDirectory(targetScriptsGamePlayDataPath);
+            }
+
+            if (!Directory.Exists(targetScriptsGamePlayFlowPath)) {
+                Directory.CreateDirectory(targetScriptsGamePlayFlowPath);
+            }
+
+            AssetDatabase.Refresh();
+        }
+
+        private void CreateAddressableAsset() {
+            AddressableAssetSettingsDefaultObject.Settings = AddressableAssetSettings.Create(
+                AddressableAssetSettingsDefaultObject.kDefaultConfigFolder,
+                AddressableAssetSettingsDefaultObject.kDefaultConfigAssetName, true, true);
+        }
+
+        private void AutoInstallAddressableData() {
+            /*游戏总配置*/
+            string targetGameSettingPath = $"Packages/evoreek.lazypan/Runtime/Bundles/GameSetting/GameSetting.asset";
+            AddAssetToAddressableEntries(targetGameSettingPath);
+
+            /*游戏配置*/
+            string targetBundlesConfigsPath = "Assets/LazyPan/Bundles/Configs";
+            if (Directory.Exists(targetBundlesConfigsPath)) {
+                AddAssetToAddressableEntries(targetBundlesConfigsPath);
+            }
+
+            /*游戏不同类型资源加载目录*/
+            string targetBundlesPrefabsGlobalPath = "Assets/LazyPan/Bundles/Prefabs/Global";
+            string targetBundlesPrefabsObjPath = "Assets/LazyPan/Bundles/Prefabs/Obj";
+            string targetBundlesPrefabsToolPath = "Assets/LazyPan/Bundles/Prefabs/Tool";
+            string targetBundlesPrefabsUIPath = "Assets/LazyPan/Bundles/Prefabs/UI";
+
+            if (Directory.Exists(targetBundlesPrefabsGlobalPath)) {
+                AddAssetToAddressableEntries(targetBundlesPrefabsGlobalPath);
+            }
+
+            if (Directory.Exists(targetBundlesPrefabsObjPath)) {
+                AddAssetToAddressableEntries(targetBundlesPrefabsObjPath);
+            }
+
+            if (Directory.Exists(targetBundlesPrefabsToolPath)) {
+                AddAssetToAddressableEntries(targetBundlesPrefabsToolPath);
+            }
+
+            if (Directory.Exists(targetBundlesPrefabsUIPath)) {
+                AddAssetToAddressableEntries(targetBundlesPrefabsUIPath);
+            }
+
+            /*输入控制器*/
+            string targetInputControlPath = "Assets/LazyPan/Bundles/Configs/Input/LazyPanInputControl.inputactions";
+            AddAssetToAddressableEntries(targetInputControlPath);
+        }
+
+        private void AddAssetToAddressableEntries(string path) {
+            Object dir = AssetDatabase.LoadAssetAtPath<Object>(path);
+            string guid = AssetDatabase.AssetPathToGUID(path);
+            if (dir != null) {
+                AddressableAssetSettings settings = AddressableAssetSettingsDefaultObject.Settings;
+                if (settings != null) {
+                    var group = settings.DefaultGroup;
+                    if (group != null) {
+                        AddressableAssetEntry entry = group.entries.FirstOrDefault(e => e.guid == guid);
+                        if (entry == null) {
+                            entry = settings.CreateOrMoveEntry(guid, group, false, false);
+                        }
+
+                        entry.address = path;
                     }
-                    entry.address = path;
                 }
             }
         }
-    }
 
-    public void CopyFilesToDirectory(string sourceDirectory, string destinationDirectory) {
-        string sourcePath = $"Packages/evoreek.lazypan/Runtime/{sourceDirectory}"; // 源文件夹路径
-        string targetPath = $"Assets/{destinationDirectory}"; // 目标文件夹路径
-        // 检查源目录是否存在
-        if (!Directory.Exists(sourcePath)) {
-            Debug.LogError($"Source directory does not exist: {sourcePath}");
-            return;
+        public void CopyFilesToDirectory(string sourceDirectory, string destinationDirectory) {
+            string sourcePath = $"Packages/evoreek.lazypan/Runtime/{sourceDirectory}"; // 源文件夹路径
+            string targetPath = $"Assets/{destinationDirectory}"; // 目标文件夹路径
+            // 检查源目录是否存在
+            if (!Directory.Exists(sourcePath)) {
+                Debug.LogError($"Source directory does not exist: {sourcePath}");
+                return;
+            }
+
+            // 创建目标目录（如果不存在）
+            if (!Directory.Exists(targetPath)) {
+                Directory.CreateDirectory(targetPath);
+            }
+
+            // 复制源目录及其子目录中的所有文件
+            CopyDirectory(sourcePath, targetPath);
+
+            Debug.Log($"Files copied from {sourcePath} to {targetPath}");
+
+            AssetDatabase.Refresh();
         }
 
-        // 创建目标目录（如果不存在）
-        if (!Directory.Exists(targetPath)) {
-            Directory.CreateDirectory(targetPath);
+        private void DecompressFileToDirectory(string sourceZipFile, string destinationFolder) {
+            string combine_sourceZipFile = $"Packages/evoreek.lazypan/Runtime/{sourceZipFile}"; // 源文件夹路径
+            string combine_destinationFolder = $"Assets/{destinationFolder}"; // 目标文件夹路径;
+            LazyPanTool.DecompressFile(combine_sourceZipFile, combine_destinationFolder);
         }
 
-        // 复制源目录及其子目录中的所有文件
-        CopyDirectory(sourcePath, targetPath);
+        private void CopyDirectory(string sourceDir, string destDir) {
+            // 创建目标目录
+            Directory.CreateDirectory(destDir);
 
-        Debug.Log($"Files copied from {sourcePath} to {targetPath}");
+            // 获取源目录中的所有文件
+            string[] files = Directory.GetFiles(sourceDir);
+            foreach (string file in files) {
+                string fileName = Path.GetFileName(file);
+                string destFile = Path.Combine(destDir, fileName);
+                File.Copy(file, destFile, true); // 设置true以覆盖目标目录中的同名文件
+            }
 
-        AssetDatabase.Refresh();
-    }
-
-    private void DecompressFileToDirectory(string sourceZipFile, string destinationFolder) {
-        string combine_sourceZipFile = $"Packages/evoreek.lazypan/Runtime/{sourceZipFile}"; // 源文件夹路径
-        string combine_destinationFolder = $"Assets/{destinationFolder}"; // 目标文件夹路径;
-        LazyPanTool.DecompressFile(combine_sourceZipFile, combine_destinationFolder);
-    }
-
-    private void CopyDirectory(string sourceDir, string destDir) {
-        // 创建目标目录
-        Directory.CreateDirectory(destDir);
-
-        // 获取源目录中的所有文件
-        string[] files = Directory.GetFiles(sourceDir);
-        foreach (string file in files) {
-            string fileName = Path.GetFileName(file);
-            string destFile = Path.Combine(destDir, fileName);
-            File.Copy(file, destFile, true); // 设置true以覆盖目标目录中的同名文件
+            // 获取源目录中的所有子目录
+            string[] directories = Directory.GetDirectories(sourceDir);
+            foreach (string directory in directories) {
+                string directoryName = Path.GetFileName(directory);
+                string destDirectory = Path.Combine(destDir, directoryName);
+                CopyDirectory(directory, destDirectory); // 递归复制子目录
+            }
         }
 
-        // 获取源目录中的所有子目录
-        string[] directories = Directory.GetDirectories(sourceDir);
-        foreach (string directory in directories) {
-            string directoryName = Path.GetFileName(directory);
-            string destDirectory = Path.Combine(destDir, directoryName);
-            CopyDirectory(directory, destDirectory); // 递归复制子目录
+        public void MoveSceneToBuildSettings() {
+            EditorBuildSettings.scenes = new EditorBuildSettingsScene[0]; // 清空 Build Settings 中的场景
+            // 获取指定文件夹中的所有场景文件
+            string[] sceneFiles =
+                Directory.GetFiles("Assets/LazyPan/Bundles/Scenes", "*.unity", SearchOption.AllDirectories);
+            List<EditorBuildSettingsScene> newScenes = new List<EditorBuildSettingsScene>();
+            // 将所有场景文件添加到 Build Settings 中
+            foreach (string sceneFile in sceneFiles) {
+                newScenes.Add(new EditorBuildSettingsScene(sceneFile, true));
+            }
+
+            // 更新 Build Settings 场景列表
+            EditorBuildSettings.scenes = newScenes.ToArray();
         }
-    }
 
-    public void MoveSceneToBuildSettings() {
-        EditorBuildSettings.scenes = new EditorBuildSettingsScene[0]; // 清空 Build Settings 中的场景
-        // 获取指定文件夹中的所有场景文件
-        string[] sceneFiles = Directory.GetFiles("Assets/LazyPan/Bundles/Scenes", "*.unity", SearchOption.AllDirectories);
-        List<EditorBuildSettingsScene> newScenes = new List<EditorBuildSettingsScene>();
-        // 将所有场景文件添加到 Build Settings 中
-        foreach (string sceneFile in sceneFiles) {
-            newScenes.Add(new EditorBuildSettingsScene(sceneFile, true));
+        private void AutoGenerateFlow() {
+            Generate.GenerateFlow();
         }
-        // 更新 Build Settings 场景列表
-        EditorBuildSettings.scenes = newScenes.ToArray();
-    }
 
-    private void AutoGenerateFlow() {
-        Generate.GenerateFlow();
-    }
+        private void AutoGenerateBehaviour() {
+            Generate.GenerateBehaviour(false);
+        }
 
-    private void AutoGenerateBehaviour() {
-        Generate.GenerateBehaviour(false);
-    }
+        private void AutoGenerateBehaviourTemplate() {
+            Generate.GenerateBehaviour(true);
+        }
 
-    private void AutoGenerateBehaviourTemplate() {
-        Generate.GenerateBehaviour(true);
-    }
-
-    private void TestSceneAndPlay() {
-        EditorSceneManager.OpenScene("Assets/LazyPan/Bundles/Scenes/Launch.unity");
-        EditorApplication.isPlaying = true;
+        private void TestSceneAndPlay() {
+            EditorSceneManager.OpenScene("Assets/LazyPan/Bundles/Scenes/Launch.unity");
+            EditorApplication.isPlaying = true;
+        }
     }
 }
