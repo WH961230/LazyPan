@@ -60,6 +60,7 @@ public class LazyPanGuide : EditorWindow {
                 CopyFilesToDirectory("Bundles/Scenes", "LazyPan/Bundles/Scenes");
                 CopyFilesToDirectory("Bundles/TextMeshPro", "");
                 CopyFilesToDirectory("Bundles/Csv/StreamingAssets/Csv", "StreamingAssets/Csv");
+                DecompressFileToDirectory("Core/NodeGraphProcessor.zip", "LazyPan/Scripts/GamePlay/Config/NodeGraphProcessor");
             }
             GUILayout.EndHorizontal();
 
@@ -253,6 +254,12 @@ public class LazyPanGuide : EditorWindow {
         Debug.Log($"Files copied from {sourcePath} to {targetPath}");
 
         AssetDatabase.Refresh();
+    }
+
+    private void DecompressFileToDirectory(string sourceZipFile, string destinationFolder) {
+        string combine_sourceZipFile = $"Packages/evoreek.lazypan/Runtime/{sourceZipFile}"; // 源文件夹路径
+        string combine_destinationFolder = $"Assets/{destinationFolder}"; // 目标文件夹路径;
+        LazyPanTool.DecompressFile(combine_sourceZipFile, combine_destinationFolder);
     }
 
     private void CopyDirectory(string sourceDir, string destDir) {

@@ -1,8 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
+using CompressionLevel = System.IO.Compression.CompressionLevel;
+using GZipStream = Ionic.Zlib.GZipStream;
 
 public class LazyPanTool : EditorWindow {
     public Dictionary<Type, EditorWindow> editorWindows = new Dictionary<Type, EditorWindow>();
@@ -102,5 +105,25 @@ public class LazyPanTool : EditorWindow {
     public static GUISkin GetGUISkin(string guiskinname) {
         return AssetDatabase.LoadAssetAtPath<GUISkin>(
             $"Packages/evoreek.lazypan/Runtime/Bundles/GUISkin/{guiskinname}.guiskin");
+    }
+
+    //压缩文件
+    public static void CompressFile(string sourceFolder, string destinationZipFile) {
+        try {
+            ZipFile.CreateFromDirectory(sourceFolder, destinationZipFile, CompressionLevel.Optimal, false);
+            Debug.Log("Folder compressed successfully.");
+        } catch (Exception ex) {
+            Debug.LogError($"Failed to compress folder: {ex.Message}");
+        }
+    }
+
+    //解压文件
+    public static void DecompressFile(string sourceZipFile, string destinationFolder) {
+        try {
+            ZipFile.ExtractToDirectory(sourceZipFile, destinationFolder);
+            Debug.Log("Folder decompressed successfully.");
+        } catch (Exception ex) {
+            Debug.LogError($"Failed to decompress folder: {ex.Message}");
+        }
     }
 }
