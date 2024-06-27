@@ -6,7 +6,6 @@ namespace LazyPan {
     [CreateAssetMenu(menuName = "LazyPan/LocationInformationSetting")]
     public class LocationInformationSetting : ScriptableObject {
         public string SettingName;
-        public GameObject TerrainGo;
         public List<LocationInformationData> locationInformationDatas;
     }
 

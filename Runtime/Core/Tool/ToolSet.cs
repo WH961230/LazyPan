@@ -11,12 +11,14 @@ namespace LazyPan {
                 EditorUtility.DisplayDialog("错误", "请选择有且仅有一个物体作为父物体!", "了解");
                 return;
             }
+
             GameObject selectGameObject = Selection.gameObjects[0];
             if (selectGameObject.transform.childCount == 0) {
                 EditorUtility.DisplayDialog("错误", "父物体没有子物体,请检查选中物体!", "了解");
                 return;
             }
-            /*创建点位配置*/
+
+            //创建点位配置
             string settingPath = string.Concat("Assets", Loader.LoadGameSetting().LocationInformationSettingPath, selectGameObject.name, ".asset");
             LocationInformationSetting setting = AssetDatabase.LoadAssetAtPath(settingPath, typeof(LocationInformationSetting)) as LocationInformationSetting;
             if (setting == null) {
@@ -28,9 +30,6 @@ namespace LazyPan {
             for (int i = 0; i < selectGameObject.transform.childCount; i++) {
                 setting.name = selectGameObject.name;
                 Transform childTran = selectGameObject.transform.GetChild(i);
-                if (childTran.name == "TerrainIgnore") {
-                    continue;
-                }
                 LocationInformationData locationInformationData = new LocationInformationData();
                 locationInformationData.Position = childTran.position;
                 locationInformationData.Rotation = childTran.rotation.eulerAngles;
@@ -53,10 +52,6 @@ namespace LazyPan {
 
             foreach (LocationInformationSetting setting in locationInformationSetting) {
                 GameObject parentGameObject = new GameObject(setting.name);
-                if (setting.TerrainGo != null) {
-                    GameObject terrain = Instantiate(setting.TerrainGo, parentGameObject.transform);
-                    terrain.name = "TerrainIgnore";
-                }
                 for (int i = 0; i < setting.locationInformationDatas.Count; i++) {
                     LocationInformationData data = setting.locationInformationDatas[i];
                     string markSign = "Obj_MarkLocationInformationWithDir";
