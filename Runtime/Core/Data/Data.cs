@@ -1,162 +1,105 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace LazyPan {
-    public partial class Data : Singleton<Data> {
-        public bool FirstPlay;//首次游玩
-        public Transform UIDontDestroyRoot;
-        public Transform UIRoot;//根节点
-        public Transform ObjRoot;//根节点
+    public class Data : MonoBehaviour {
+       public List<BoolData> Bools = new List<BoolData>();
+        public List<IntData> Ints = new List<IntData>();
+        public List<FloatData> Floats = new List<FloatData>();
+        public List<StringData> Strings = new List<StringData>();
 
-        public UnityEvent OnUpdateEvent = new UnityEvent();
-        public UnityEvent OnFixedUpdateEvent = new UnityEvent();
-        public UnityEvent OnLateUpdateEvent = new UnityEvent();
-
-        public int EntityID;//为实体分配的ID
-        public Dictionary<int, Entity> EntityDic = new Dictionary<int, Entity>();
-        public Dictionary<int, List<Behaviour>> BehaviourDic = new Dictionary<int, List<Behaviour>>();
-
-        public bool AddEntity(int id, Entity entity) {
-            if (EntityDic.TryAdd(id, entity)) {
-                ConsoleEx.Instance.ContentSave("entity", $"ID:{id} 注册实体:{entity.ObjConfig.Name}");
-                return true;
-            }
-
-            return false;
-        }
-
-        public void RemoveEntity(int id) {
-            if (EntityDic.ContainsKey(id)) {
-                ConsoleEx.Instance.ContentSave("entity", $"ID:{id} 移除实体:{EntityDic[id].ObjConfig.Name}");
-                EntityDic.Remove(id);
-            }
-        }
-
-        //通过 标识 查找实体
-        public bool TryGetEntityBySign(string objSign, out Entity entity) {
-            foreach (Entity tmpEntity in EntityDic.Values) {
-                if (objSign == tmpEntity.ObjConfig.Sign) {
-                    entity = tmpEntity;
-                    return true;
+        public bool Get<T>(string sign, out T t) {
+            if (typeof(T) == typeof(BoolData)) {
+                foreach (BoolData data in Bools) {
+                    if (data.Sign == sign) {
+                        t = (T)Convert.ChangeType(data, typeof(T));
+                        return true;
+                    }
                 }
-            }
-
-            entity = default;
-            return false;
-        }
-
-        //通过 ID 查找实体
-        public bool TryGetEntityByID(int id, out Entity entity) {
-            if (EntityDic.TryGetValue(id, out entity)) {
-                return true;
-            }
-
-            return false;
-        }
-
-        //通过 类型 查找实体
-        public bool TryGetEntityByType(string type, out Entity entity) {
-            foreach (Entity tmpEntity in EntityDic.Values) {
-                if (tmpEntity.EntityData.BaseRuntimeData != null && type == tmpEntity.EntityData.BaseRuntimeData.Type) {
-                    entity = tmpEntity;
-                    return true;
+            } else if (typeof(T) == typeof(IntData)) {
+                foreach (IntData data in Ints) {
+                    if (data.Sign == sign) {
+                        t = (T)Convert.ChangeType(data, typeof(T));
+                        return true;
+                    }
                 }
-            }
-
-            entity = default;
-            return false;
-        }
-
-        //通过 类型 查找所有实体
-        public bool TryGetEntitiesByType(string type, out List<Entity> entity) {
-            entity = new List<Entity>();
-            foreach (Entity tmpEntity in EntityDic.Values) {
-                if (tmpEntity.EntityData.BaseRuntimeData != null && type == tmpEntity.EntityData.BaseRuntimeData.Type) {
-                    entity.Add(tmpEntity);
+            } else if (typeof(T) == typeof(FloatData)) {
+                foreach (FloatData data in Floats) {
+                    if (data.Sign == sign) {
+                        t = (T)Convert.ChangeType(data, typeof(T));
+                        return true;
+                    }
                 }
-            }
-
-            if (entity.Count > 0) {
-                return true;
-            }
-
-            entity = default;
-            return false;
-        }
-
-        //通过组件查找实体
-        public bool TryGetEntityByComp(Comp comp, out Entity entity) {
-            foreach (Entity tempEntity in EntityDic.Values) {
-                if (tempEntity.Comp == comp) {
-                    entity = tempEntity;
-                    return true;
-                }
-            }
-
-            entity = null;
-            return false;
-        }
-
-        //通过组件查找实体
-        public bool TryGetEntityByBodyPrefabID(int id, out Entity entity) {
-            foreach (Entity tempEntity in EntityDic.Values) {
-                Transform bodyTran = Cond.Instance.Get<Transform>(tempEntity, Label.BODY);
-                if (bodyTran != null && bodyTran.gameObject.GetInstanceID() == id) {
-                    entity = tempEntity;
-                    return true;
-                }
-            }
-
-            entity = null;
-            return false;
-        }
-
-        //通过实体查找实体
-        public bool HasEntity(Entity entity) {
-            foreach (Entity tempEntity in EntityDic.Values) {
-                if (tempEntity == entity) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        //获取某一类型的随机实体
-        public bool TryGetRandEntityByType(string type, out Entity entity) {
-            bool findTypeEntities = TryGetEntitiesByType(type, out List<Entity> entities);
-            if (!findTypeEntities) {
-                entity = default;
-                return false;
-            }
-
-            entity = GetRandEntity(entities);
-            return true;
-        }
-
-        //获取距离内的所有实体
-        public bool TryGetEntitiesWithinDistance(string type, Vector3 fromPoint, float distance, out List<Entity> entity) {
-            entity = new List<Entity>();
-            if (TryGetEntitiesByType(type, out List<Entity> tmpEntities)) {
-                foreach (Entity tmpEntity in tmpEntities) {
-                    float disSqrt = distance * distance;
-                    if ((Cond.Instance.Get<Transform>(tmpEntity, Label.BODY).position - fromPoint).sqrMagnitude < disSqrt) {
-                        entity.Add(tmpEntity);
+            } else if (typeof(T) == typeof(StringData)) {
+                foreach (StringData data in Strings) {
+                    if (data.Sign == sign) {
+                        t = (T)Convert.ChangeType(data, typeof(T));
+                        return true;
                     }
                 }
             }
 
-            if (entity.Count > 0) {
-                return true;
+            t = default;
+            return false;
+        }
+
+        public bool Set<T>(string sign, T t) {
+            if (typeof(T) == typeof(bool)) {
+                foreach (BoolData data in Bools) {
+                    if (data.Sign == sign) {
+                        data.Bool = (bool)Convert.ChangeType(t, typeof(bool));
+                        return true;
+                    }
+                }
+            } else if (typeof(T) == typeof(int)) {
+                foreach (IntData data in Ints) {
+                    if (data.Sign == sign) {
+                        data.Int = (int)Convert.ChangeType(t, typeof(int));
+                        return true;
+                    }
+                }
+            } else if (typeof(T) == typeof(float)) {
+                foreach (FloatData data in Floats) {
+                    if (data.Sign == sign) {
+                        data.Float = (float)Convert.ChangeType(t, typeof(float));
+                        return true;
+                    }
+                }
+            } else if (typeof(T) == typeof(string)) {
+                foreach (StringData data in Strings) {
+                    if (data.Sign == sign) {
+                        data.String = (string)Convert.ChangeType(t, typeof(string));
+                        return true;
+                    }
+                }
             }
 
             return false;
         }
+    }
 
-        //实体列表内获取随机实体
-        public Entity GetRandEntity(List<Entity> entities) {
-            return entities[Random.Range(0, entities.Count)];
-        }
+    [Serializable]
+    public class BoolData {
+        public string Sign;
+        public bool Bool;
+    }
+
+    [Serializable]
+    public class IntData {
+        public string Sign;
+        public int Int;
+    }
+
+    [Serializable]
+    public class FloatData {
+        public string Sign;
+        public float Float;
+    }
+
+    [Serializable]
+    public class StringData {
+        public string Sign;
+        public string String;
     }
 }

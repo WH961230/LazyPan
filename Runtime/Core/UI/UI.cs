@@ -7,9 +7,10 @@ namespace LazyPan {
         private Dictionary<string, Comp> uICompAlwaysDics = new Dictionary<string, Comp>();
         private Dictionary<string, Comp> uICompExchangeDics = new Dictionary<string, Comp>();
         private Dictionary<string, Comp> uICompDics = new Dictionary<string, Comp>();
+        private Transform UIRoot;//根节点
 
         public void Preload() {
-            Data.Instance.UIRoot = Loader.LoadGo("画布", "Global/Global_UIRoot", null, true).transform;
+            UIRoot = Loader.LoadGo("画布", "Global/Global_UIRoot", null, true).transform;
             List<string> keys = UIConfig.GetKeys();
             int length = keys.Count;
             uICompDics.Clear();
@@ -17,7 +18,7 @@ namespace LazyPan {
             uICompAlwaysDics.Clear();
             for (int i = 0; i < length; i++) {
                 string key = keys[i];
-                GameObject uiGo = Loader.LoadGo(UIConfig.Get(key).Description, string.Concat("UI/", key), Data.Instance.UIRoot, false);
+                GameObject uiGo = Loader.LoadGo(UIConfig.Get(key).Description, string.Concat("UI/", key), UIRoot, false);
                 switch (UIConfig.Get(key).Type) {
                     case 0:
                         uICompExchangeDics.Add(key, uiGo.GetComponent<Comp>());

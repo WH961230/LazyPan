@@ -13,7 +13,7 @@ namespace LazyPan {
             InputRegister.Instance.Dispose(InputRegister.Console);
             InputRegister.Instance.Load(InputRegister.Console, ConsoleEvent);
             comp =
-                Loader.LoadComp("控制台界面", "UI/UI_Console", Data.Instance.UIDontDestroyRoot, initOpen);
+                Loader.LoadComp("控制台界面", "UI/UI_Console", Launch.instance.UIDontDestroyRoot, initOpen);
             ContentClear();
 #endif
         }

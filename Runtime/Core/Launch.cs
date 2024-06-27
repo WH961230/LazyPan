@@ -6,16 +6,17 @@ namespace LazyPan {
         public static Launch instance;
         public bool OpenConsole;
         public string StageLoadScene;
+        [HideInInspector] public Transform UIDontDestroyRoot;
         private void Awake() {
             if (instance == null) {
                 instance = this;
                 Config.Instance.Init(); 
                 Obj.Instance.Init();
 
-                Data.Instance.UIDontDestroyRoot = Loader.LoadGo("加载画布", "Global/Global_Loading_UIRoot", null, true).transform;
-                Data.Instance.UIDontDestroyRoot.gameObject.AddComponent<Stage>();
-                Data.Instance.UIDontDestroyRoot.gameObject.GetComponent<Canvas>().sortingOrder = 1;
-                DontDestroyOnLoad(Data.Instance.UIDontDestroyRoot.gameObject);
+                UIDontDestroyRoot = Loader.LoadGo("加载画布", "Global/Global_Loading_UIRoot", null, true).transform;
+                UIDontDestroyRoot.gameObject.AddComponent<Stage>();
+                UIDontDestroyRoot.gameObject.GetComponent<Canvas>().sortingOrder = 1;
+                DontDestroyOnLoad(UIDontDestroyRoot.gameObject);
 
                 DontDestroyOnLoad(gameObject);
 
@@ -27,11 +28,7 @@ namespace LazyPan {
 
         //加载阶段
         public void StageLoad(string sceneName) {
-            Data.Instance.OnUpdateEvent.RemoveAllListeners();
-            Data.Instance.OnFixedUpdateEvent.RemoveAllListeners();
-            Data.Instance.OnLateUpdateEvent.RemoveAllListeners();
-
-            Stage stage = Data.Instance.UIDontDestroyRoot.gameObject.GetComponent<Stage>();
+            Stage stage = UIDontDestroyRoot.gameObject.GetComponent<Stage>();
             stage.Load(SceneConfig.Get(sceneName).DelayTime, sceneName);
         }
 

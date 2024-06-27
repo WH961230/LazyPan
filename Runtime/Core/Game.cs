@@ -1,8 +1,12 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace LazyPan {
     public class Game : MonoBehaviour {
         public static Game instance;
+        public UnityEvent OnUpdateEvent = new UnityEvent();
+        public UnityEvent OnFixedUpdateEvent = new UnityEvent();
+        public UnityEvent OnLateUpdateEvent = new UnityEvent();
 
         public void Init() {
             instance = this;
@@ -11,10 +15,10 @@ namespace LazyPan {
             Flo.Instance.Preload();
         }
 
-        private void Update() { Data.Instance.OnUpdateEvent.Invoke(); }
+        private void Update() { OnUpdateEvent.Invoke(); }
 
-        private void FixedUpdate() { Data.Instance.OnFixedUpdateEvent.Invoke(); }
+        private void FixedUpdate() { OnUpdateEvent.Invoke(); }
 
-        private void LateUpdate() { Data.Instance.OnLateUpdateEvent.Invoke(); }
+        private void LateUpdate() { OnUpdateEvent.Invoke(); }
     }
 }

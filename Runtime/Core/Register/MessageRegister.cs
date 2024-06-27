@@ -17,6 +17,18 @@ namespace LazyPan {
             register.Register(id, a);
         }
 
+        public void Reg<T1, T2, T3>(int id, Action<T1, T2, T3> a) {
+            register.Register(id, a);
+        }
+
+        public void Reg<T1, T2, T3, T4>(int id, Action<T1, T2, T3, T4> a) {
+            register.Register(id, a);
+        }
+
+        public void Reg<T1, T2, T3, T4, T5>(int id, Action<T1, T2, T3, T4, T5> a) {
+            register.Register(id, a);
+        }
+
         public void UnReg(int id, Action act) {
             register.UnRegister(id, act);
         }
@@ -26,6 +38,18 @@ namespace LazyPan {
         }
 
         public void UnReg<T1, T2>(int id, Action<T1, T2> act) {
+            register.UnRegister(id, act);
+        }
+
+        public void UnReg<T1, T2, T3>(int id, Action<T1, T2, T3> act) {
+            register.UnRegister(id, act);
+        }
+
+        public void UnReg<T1, T2, T3, T4>(int id, Action<T1, T2, T3, T4> act) {
+            register.UnRegister(id, act);
+        }
+
+        public void UnReg<T1, T2, T3, T4, T5>(int id, Action<T1, T2, T3, T4, T5> act) {
             register.UnRegister(id, act);
         }
 
@@ -39,6 +63,18 @@ namespace LazyPan {
 
         public void Dis<T1, T2>(int id, T1 t1, T2 t2) {
             register.Dispatcher(id, t1, t2);
+        }
+
+        public void Dis<T1, T2, T3>(int id, T1 t1, T2 t2, T3 t3) {
+            register.Dispatcher(id, t1, t2, t3);
+        }
+
+        public void Dis<T1, T2, T3, T4>(int id, T1 t1, T2 t2, T3 t3, T4 t4) {
+            register.Dispatcher(id, t1, t2, t3, t4);
+        }
+
+        public void Dis<T1, T2, T3, T4, T5>(int id, T1 t1, T2 t2, T3 t3, T4 t4, T5 t5) {
+            register.Dispatcher(id, t1, t2, t3, t4, t5);
         }
     }
 
@@ -65,6 +101,14 @@ namespace LazyPan {
 
         public void Invoke<T1, T2, T3>(T1 t1, T2 t2, T3 t3) {
             ((Action<T1, T2, T3>)handler).Invoke(t1, t2, t3);
+        }
+
+        public void Invoke<T1, T2, T3, T4>(T1 t1, T2 t2, T3 t3, T4 t4) {
+            ((Action<T1, T2, T3, T4>)handler).Invoke(t1, t2, t3, t4);
+        }
+
+        public void Invoke<T1, T2, T3, T4, T5>(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5) {
+            ((Action<T1, T2, T3, T4, T5>)handler).Invoke(t1, t2, t3, t4, t5);
         }
     }
 
@@ -129,6 +173,30 @@ namespace LazyPan {
             if (handles.TryGetValue(id, out List<Body> acts)) {
                 for (int i = 0; i < acts.Count; i++) {
                     acts[i].Invoke(act1, act2);
+                }
+            }
+        }
+
+        public void Dispatcher<T1, T2, T3>(int id, T1 act1, T2 act2, T3 act3) {
+            if (handles.TryGetValue(id, out List<Body> acts)) {
+                for (int i = 0; i < acts.Count; i++) {
+                    acts[i].Invoke(act1, act2, act3);
+                }
+            }
+        }
+
+        public void Dispatcher<T1, T2, T3, T4>(int id, T1 act1, T2 act2, T3 act3, T4 act4) {
+            if (handles.TryGetValue(id, out List<Body> acts)) {
+                for (int i = 0; i < acts.Count; i++) {
+                    acts[i].Invoke(act1, act2, act3, act4);
+                }
+            }
+        }
+
+        public void Dispatcher<T1, T2, T3, T4, T5>(int id, T1 act1, T2 act2, T3 act3, T4 act4, T5 act5) {
+            if (handles.TryGetValue(id, out List<Body> acts)) {
+                for (int i = 0; i < acts.Count; i++) {
+                    acts[i].Invoke(act1, act2, act3, act4, act5);
                 }
             }
         }

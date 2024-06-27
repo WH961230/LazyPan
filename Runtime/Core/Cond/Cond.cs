@@ -4,17 +4,31 @@ using UnityEngine.Events;
 
 namespace LazyPan {
     public class Cond : Singleton<Cond> {
-        #region 全局
-        public Entity GetCameraEntity() { if (Data.Instance.TryGetEntityByType("Camera", out Entity entity)) { return entity; } else { return null; } }
-        public Entity GetPlayerEntity() { if (Data.Instance.TryGetEntityByType("Player", out Entity entity)) { return entity; } else { return null; } }
+        #region 全局通用实体
+
+        public Entity GetCameraEntity() {
+            if (EntityRegister.TryGetRandEntityByType("Camera", out Entity entity)) {
+                return entity;
+            } else {
+                return null;
+            }
+        }
+
+        public Entity GetPlayerEntity() {
+            if (EntityRegister.TryGetRandEntityByType("Player", out Entity entity)) {
+                return entity;
+            } else {
+                return null;
+            }
+        }
 
         public bool GetEntityByID(int id, out Entity entity) {
-            return Data.Instance.TryGetEntityByID(id, out entity) ;
+            return EntityRegister.TryGetEntityByID(id, out entity) ;
         }
 
         #endregion
 
-        #region 根据标签获取组件|事件
+        #region 查标签组件
         public T Get<T>(Entity entity, string label) where T : Object {
             if (entity == null) { return default; }
 #if UNITY_EDITOR
@@ -29,12 +43,49 @@ namespace LazyPan {
             if (comp == null) { return default; }
             return comp.Get<T>(label);
         }
-        public UnityEvent Get(Entity entity, string label) {
+
+        #endregion
+
+        #region 查标签数据
+
+        public bool GetData<T>(Entity entity, string label, out T t) {
+            if (entity == null) {
+                t = default;
+                return false;
+            }
+#if UNITY_EDITOR
+            if (entity.Data == null) {
+                LogUtil.LogErrorFormat("请检查 entity:{0} 没有挂 Data 组件!", entity.ObjConfig.Sign);
+                EditorApplication.isPaused = true;
+            }
+#endif
+            return entity.Data.Get(label, out t);
+        }
+
+        public bool SetData<T>(Entity entity, string label, T t) {
+            if (entity == null) {
+                return false;
+            }
+#if UNITY_EDITOR
+            if (entity.Data == null) {
+                LogUtil.LogErrorFormat("请检查 entity:{0} 没有挂 Data 组件!", entity.ObjConfig.Sign);
+                EditorApplication.isPaused = true;
+            }
+#endif
+            return entity.Data.Set(label, t);
+        }
+
+        #endregion
+
+        #region 查标签事件
+
+        public UnityEvent GetEvent(Entity entity, string label) {
             return entity.Comp.GetEvent(label);
         }
-        public UnityEvent Get(Comp comp, string label) {
+        public UnityEvent GetEvent(Comp comp, string label) {
             return comp.GetEvent(label);
         }
+
         #endregion
     }
 }
