@@ -95,6 +95,8 @@
         public static string CLOSE = "Close";//关闭
         public static string VALUE = "Value";//数值
         public static string PICTURE = "Picture";//图片
+        public static string MOVEMENT = "Movement";//移动
+        public static string SPEED = "Speed";//速度
 
 
         //组合A+B
