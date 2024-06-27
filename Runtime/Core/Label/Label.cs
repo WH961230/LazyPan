@@ -97,7 +97,7 @@
         public static string PICTURE = "Picture";//图片
         public static string MOVEMENT = "Movement";//移动
         public static string SPEED = "Speed";//速度
-        public static string ING = "Ing";//进行中
+        public static string ING = "ing";//进行中
         public static string ENERGY = "Energy";//能量
         public static string MAX = "Max";//最大
 
