@@ -32,7 +32,7 @@ namespace LazyPan {
             Jump();
         }
 
-        /*标签*/
+        //标签
         private void ToolBar() {
             currentToolBar = GUILayout.Toolbar(currentToolBar, values, GUILayout.Height(30));
             switch (currentToolBar) {
@@ -79,20 +79,20 @@ namespace LazyPan {
             }
         }
 
-        /*跳转动画*/
+        //跳转动画
         private void Jump() {
-            /*点击新的标签页*/
+            //点击新的标签页
             if (previousToolBar != currentToolBar) {
                 isAnimToolBar = true;
                 areaX = previousToolBar < currentToolBar ? Screen.width : -Screen.width;
                 previousToolBar = currentToolBar;
             }
 
-            /*动画转换*/
+            //动画转换
             if (isAnimToolBar) {
                 float sign = -Mathf.Sign(areaX);
                 areaX += sign * animToolBarSpeed;
-                /*动画超过边界*/
+                //动画超过边界
                 if (Mathf.Abs(areaX) < 0.05f) {
                     isAnimToolBar = false;
                 }
