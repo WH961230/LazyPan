@@ -22,6 +22,10 @@ namespace LazyPan {
             //设置配置
             ObjConfig objConfig = ObjConfig.Get(sign);
             ObjConfig = objConfig;
+            //设置标识
+            Sign = objConfig.Sign;
+            //设置类型
+            Type = objConfig.Type;
             //获取对象池的物体 如数量不足 对象池预加载
             Prefab = Loader.LoadGo(null,
                 string.Concat(SceneConfig.Get(SceneManager.GetActiveScene().name).DirPath, objConfig.Sign),
