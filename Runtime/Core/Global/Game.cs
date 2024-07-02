@@ -17,8 +17,8 @@ namespace LazyPan {
 
         private void Update() { OnUpdateEvent.Invoke(); }
 
-        private void FixedUpdate() { OnUpdateEvent.Invoke(); }
+        private void FixedUpdate() { OnFixedUpdateEvent.Invoke(); }
 
-        private void LateUpdate() { OnUpdateEvent.Invoke(); }
+        private void LateUpdate() { OnLateUpdateEvent.Invoke(); }
     }
 }
