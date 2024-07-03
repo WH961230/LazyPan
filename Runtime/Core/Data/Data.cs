@@ -82,24 +82,28 @@ namespace LazyPan {
     [Serializable]
     public class BoolData {
         public string Sign;
+        public string Description;
         public bool Bool;
     }
 
     [Serializable]
     public class IntData {
         public string Sign;
+        public string Description;
         public int Int;
     }
 
     [Serializable]
     public class FloatData {
         public string Sign;
+        public string Description;
         public float Float;
     }
 
     [Serializable]
     public class StringData {
         public string Sign;
+        public string Description;
         public string String;
     }
 }
