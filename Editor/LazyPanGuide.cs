@@ -276,6 +276,7 @@ namespace LazyPan {
             string targetBundlesPrefabsObjPath = "Assets/LazyPan/Bundles/Prefabs/Obj";
             string targetBundlesPrefabsToolPath = "Assets/LazyPan/Bundles/Prefabs/Tool";
             string targetBundlesPrefabsUIPath = "Assets/LazyPan/Bundles/Prefabs/UI";
+            string targetBundlesPrefabsImagePath = "Assets/LazyPan/Bundles/Images";
 
             if (Directory.Exists(targetBundlesPrefabsGlobalPath)) {
                 AddAssetToAddressableEntries(targetBundlesPrefabsGlobalPath);
@@ -291,6 +292,10 @@ namespace LazyPan {
 
             if (Directory.Exists(targetBundlesPrefabsUIPath)) {
                 AddAssetToAddressableEntries(targetBundlesPrefabsUIPath);
+            }
+
+            if (Directory.Exists(targetBundlesPrefabsImagePath)) {
+                AddAssetToAddressableEntries(targetBundlesPrefabsImagePath);
             }
 
             /*输入控制器*/

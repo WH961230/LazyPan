@@ -25,4 +25,7 @@ MonoBehaviour:
   - AssetType: 2
     AssetAddress: Assets/LazyPan/Bundles/Configs/Input/
     AssetSuffix: .inputactions
+  - AssetType: 4
+    AssetAddress: Assets/LazyPan/Bundles/Images/
+    AssetSuffix: .png
   CommonAssetAddress: []
