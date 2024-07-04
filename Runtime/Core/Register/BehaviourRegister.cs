@@ -97,7 +97,7 @@ namespace LazyPan {
             return index;
         }
 
-        private static bool GetBehaviour<T>(int id, out T t) where T : Behaviour {
+        public static bool GetBehaviour<T>(int id, out T t) where T : Behaviour {
             //是否有实体
             if (BehaviourDic.TryGetValue(id, out List<Behaviour> behaviours)) {
                 //判断实体已有当前行为
@@ -114,7 +114,7 @@ namespace LazyPan {
             return false;
         }
         
-        private static bool GetBehaviour<T>(Entity entity, out T t) where T : Behaviour {
+        public static bool GetBehaviour<T>(Entity entity, out T t) where T : Behaviour {
             //是否有实体
             if (BehaviourDic.TryGetValue(entity.ID, out List<Behaviour> behaviours)) {
                 //判断实体已有当前行为
