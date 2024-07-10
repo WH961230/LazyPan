@@ -11,6 +11,7 @@ namespace LazyPan {
         private Queue<StageWork> works = new Queue<StageWork>(); //所有作业
 
         public void Load(float delayTime, string sceneName) {
+            works.Clear();
             if (delayTime != 0) {
                 works.Enqueue(new LoadLoadingUI(new LoadLoadingUIParameters() {
                     uiRoot = transform

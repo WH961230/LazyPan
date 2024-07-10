@@ -62,19 +62,6 @@ namespace LazyPan {
             return entity.Data.Get(label, out t);
         }
 
-        public bool SetData<T>(Entity entity, string label, T t) {
-            if (entity == null) {
-                return false;
-            }
-#if UNITY_EDITOR
-            if (entity.Data == null) {
-                LogUtil.LogErrorFormat("请检查 entity:{0} 没有挂 Data 组件!", entity.ObjConfig.Sign);
-                EditorApplication.isPaused = true;
-            }
-#endif
-            return entity.Data.Set(label, t);
-        }
-
         #endregion
 
         #region 查标签事件
