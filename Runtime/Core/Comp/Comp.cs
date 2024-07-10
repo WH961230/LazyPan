@@ -14,7 +14,7 @@ using Slider = UnityEngine.UI.Slider;
 
 namespace LazyPan {
     public class Comp : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler {
-        public UnityEvent<GameObject> OnParticleCollisionEvent;
+        public UnityEvent<GameObject, GameObject> OnParticleCollisionEvent;
         [HideInInspector] public UnityEvent<Collider> OnTriggerEnterEvent;
         [HideInInspector] public UnityEvent<Collider> OnTriggerStayEvent;
         [HideInInspector] public UnityEvent<Collider> OnTriggerExitEvent;
@@ -185,7 +185,7 @@ namespace LazyPan {
         }
 
         public void OnParticleCollision(GameObject go) {
-            OnParticleCollisionEvent?.Invoke(go);
+            OnParticleCollisionEvent?.Invoke(go, gameObject);
         }
 
         public void OnTriggerEnter(Collider other) {
