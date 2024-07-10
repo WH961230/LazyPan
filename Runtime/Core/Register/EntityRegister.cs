@@ -110,8 +110,11 @@ namespace LazyPan {
             if (TryGetEntitiesByType(type, out List<Entity> tmpEntities)) {
                 foreach (Entity tmpEntity in tmpEntities) {
                     float disSqrt = distance * distance;
-                    if ((Cond.Instance.Get<Transform>(tmpEntity, Label.BODY).position - fromPoint).sqrMagnitude < disSqrt) {
-                        entity.Add(tmpEntity);
+                    Transform body = Cond.Instance.Get<Transform>(tmpEntity, Label.BODY);
+                    if (body != null) {
+                        if ((body.position - fromPoint).sqrMagnitude < disSqrt) {
+                            entity.Add(tmpEntity);
+                        }
                     }
                 }
             }
