@@ -82,7 +82,7 @@ namespace LazyPan {
         public static bool TryGetEntityByBodyPrefabID(int id, out Entity entity) {
             foreach (Entity tempEntity in EntityDic.Values) {
                 Transform bodyTran = Cond.Instance.Get<Transform>(tempEntity, Label.BODY);
-                if (bodyTran != null && bodyTran.gameObject.GetInstanceID() == id) {
+                if (bodyTran != null && bodyTran.gameObject != null && bodyTran.gameObject.GetInstanceID() == id) {
                     entity = tempEntity;
                     return true;
                 }
