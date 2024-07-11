@@ -61,6 +61,20 @@ namespace LazyPan {
 #endif
             return entity.Data.Get(label, out t);
         }
+        
+        public bool GetCustomData<T1, T2>(Entity entity, string label, out T2 t) where T1 : Data {
+            if (entity == null) {
+                t = default;
+                return false;
+            }
+#if UNITY_EDITOR
+            if (entity.Data == null) {
+                LogUtil.LogErrorFormat("请检查 entity:{0} 没有挂 Data 组件!", entity.ObjConfig.Sign);
+                EditorApplication.isPaused = true;
+            }
+#endif
+            return entity.Comp.GetComponent<T1>().Get(label, out t);
+        }
 
         #endregion
 

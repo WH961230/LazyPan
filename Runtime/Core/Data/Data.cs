@@ -10,7 +10,7 @@ namespace LazyPan {
         public List<StringData> Strings = new List<StringData>();
         public List<Vector3Data> Vector3s = new List<Vector3Data>();
 
-        public bool Get<T>(string sign, out T t) {
+        public virtual bool Get<T>(string sign, out T t) {
             if (typeof(T) == typeof(BoolData)) {
                 foreach (BoolData data in Bools) {
                     if (data.Sign == sign) {
