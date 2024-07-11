@@ -8,6 +8,7 @@ namespace LazyPan {
         public List<IntData> Ints = new List<IntData>();
         public List<FloatData> Floats = new List<FloatData>();
         public List<StringData> Strings = new List<StringData>();
+        public List<Vector3Data> Vector3s = new List<Vector3Data>();
 
         public bool Get<T>(string sign, out T t) {
             if (typeof(T) == typeof(BoolData)) {
@@ -38,43 +39,16 @@ namespace LazyPan {
                         return true;
                     }
                 }
+            } else if (typeof(T) == typeof(Vector3Data)) {
+                foreach (Vector3Data data in Vector3s) {
+                    if (data.Sign == sign) {
+                        t = (T)Convert.ChangeType(data, typeof(T));
+                        return true;
+                    }
+                }
             }
 
             t = default;
-            return false;
-        }
-
-        public bool Set<T>(string sign, T t) {
-            if (typeof(T) == typeof(bool)) {
-                foreach (BoolData data in Bools) {
-                    if (data.Sign == sign) {
-                        data.Bool = (bool)Convert.ChangeType(t, typeof(bool));
-                        return true;
-                    }
-                }
-            } else if (typeof(T) == typeof(int)) {
-                foreach (IntData data in Ints) {
-                    if (data.Sign == sign) {
-                        data.Int = (int)Convert.ChangeType(t, typeof(int));
-                        return true;
-                    }
-                }
-            } else if (typeof(T) == typeof(float)) {
-                foreach (FloatData data in Floats) {
-                    if (data.Sign == sign) {
-                        data.Float = (float)Convert.ChangeType(t, typeof(float));
-                        return true;
-                    }
-                }
-            } else if (typeof(T) == typeof(string)) {
-                foreach (StringData data in Strings) {
-                    if (data.Sign == sign) {
-                        data.String = (string)Convert.ChangeType(t, typeof(string));
-                        return true;
-                    }
-                }
-            }
-
             return false;
         }
     }
@@ -105,5 +79,12 @@ namespace LazyPan {
         public string Sign;
         public string Description;
         public string String;
+    }
+
+    [Serializable]
+    public class Vector3Data {
+        public string Sign;
+        public string Description;
+        public Vector3 Vector3;
     }
 }
