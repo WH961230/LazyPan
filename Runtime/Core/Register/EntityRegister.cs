@@ -4,7 +4,7 @@ using UnityEngine;
 namespace LazyPan {
     public class EntityRegister {
         public static int EntityID;//为实体分配的ID
-        private static Dictionary<int, Entity> EntityDic = new Dictionary<int, Entity>();
+        public static Dictionary<int, Entity> EntityDic = new Dictionary<int, Entity>();
 
         #region 增删改查
 
