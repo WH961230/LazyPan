@@ -22,6 +22,14 @@ namespace LazyPan {
             }
         }
 
+        public Entity GetGlobalEntity() {
+            if (EntityRegister.TryGetRandEntityByType("Global", out Entity entity)) {
+                return entity;
+            } else {
+                return null;
+            }
+        }
+
         public bool GetEntityByID(int id, out Entity entity) {
             return EntityRegister.TryGetEntityByID(id, out entity) ;
         }
