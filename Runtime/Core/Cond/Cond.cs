@@ -69,8 +69,8 @@ namespace LazyPan {
 #endif
             return entity.Data.Get(label, out t);
         }
-        
-        public bool GetCustomData<T1, T2>(Entity entity, string label, out T2 t) where T1 : Data {
+
+        public bool GetData<T1, T2>(Entity entity, string label, out T2 t) where T1 : Data {
             if (entity == null) {
                 t = default;
                 return false;
@@ -81,7 +81,8 @@ namespace LazyPan {
                 EditorApplication.isPaused = true;
             }
 #endif
-            return entity.Comp.GetComponent<T1>().Get(label, out t);
+            Data data = entity.Data as T1;
+            return data.Get(label, out t);
         }
 
         #endregion
