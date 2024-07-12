@@ -81,7 +81,7 @@ namespace LazyPan {
                 EditorApplication.isPaused = true;
             }
 #endif
-            Data data = entity.Data as T1;
+            T1 data = entity.Data as T1;
             return data.Get(label, out t);
         }
 
