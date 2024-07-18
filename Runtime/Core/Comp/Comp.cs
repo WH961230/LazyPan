@@ -53,6 +53,7 @@ namespace LazyPan {
         public List<TrailRendererData> TrailRenderers = new List<TrailRendererData>();
         public List<CameraData> Cameras = new List<CameraData>();
         public List<NavMeshAgentData> NavMeshAgents = new List<NavMeshAgentData>();
+        public List<LineRendererData> LineRenderers = new List<LineRendererData>();
         
         public T Get<T>(string sign) where T : Object {
             if (typeof(T) == typeof(CharacterController)) {
@@ -157,6 +158,12 @@ namespace LazyPan {
                         return data.TrailRenderer as T;
                     }
                 }
+            } else if (typeof(T) == typeof(LineRenderer)) {
+                foreach (LineRendererData data in LineRenderers) {
+                    if (data.Sign == sign) {
+                        return data.LineRenderer as T;
+                    }
+                }
             } else if (typeof(T) == typeof(Camera)) {
                 foreach (CameraData data in Cameras) {
                     if (data.Sign == sign) {
@@ -256,6 +263,12 @@ namespace LazyPan {
         public class TrailRendererData {
             public string Sign;
             public TrailRenderer TrailRenderer;
+        }
+
+        [Serializable]
+        public class LineRendererData {
+            public string Sign;
+            public LineRenderer LineRenderer;
         }
 
         [Serializable]
