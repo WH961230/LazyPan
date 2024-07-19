@@ -59,7 +59,7 @@ namespace LazyPan {
             if (!string.IsNullOrEmpty(objConfig.SetUpBehaviourSign)) {
                 string[] behaviourArray = objConfig.SetUpBehaviourSign.Split("|");
                 for (int i = 0; i < behaviourArray.Length; i++) {
-                    BehaviourRegister.RegisterBehaviour(ID, behaviourArray[i]);
+                    BehaviourRegister.RegisterBehaviour(ID, behaviourArray[i], out Behaviour outBehaviour);
                 }
             }
         }

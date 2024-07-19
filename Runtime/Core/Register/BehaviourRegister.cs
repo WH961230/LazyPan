@@ -9,13 +9,14 @@ namespace LazyPan {
         #region 增
 
         //增加注册行为
-        public static bool RegisterBehaviour(int id, string sign) {
+        public static bool RegisterBehaviour(int id, string sign, out Behaviour outBehaviour) {
             //是否有实体
             if (EntityRegister.TryGetEntityByID(id, out Entity entity)) {
                 if (BehaviourDic.TryGetValue(id, out List<Behaviour> behaviours)) {
                     //判断实体已有当前行为
                     foreach (Behaviour tempBehaviour in behaviours) {
                         if (tempBehaviour.BehaviourSign == sign) {
+                            outBehaviour = default;
                             return false;
                         }
                     }
@@ -24,6 +25,7 @@ namespace LazyPan {
                     try {
                         Type type = Assembly.Load("Assembly-CSharp").GetType(string.Concat("LazyPan.", sign));
                         Behaviour behaviour = (Behaviour) Activator.CreateInstance(type, entity, sign);
+                        outBehaviour = behaviour;
                         behaviours.Add(behaviour);
                     } catch (Exception e) {
                         LogUtil.LogError(sign);
@@ -37,6 +39,7 @@ namespace LazyPan {
                         List<Behaviour> instanceBehaviours = new List<Behaviour>();
                         Type type = Assembly.Load("Assembly-CSharp").GetType(string.Concat("LazyPan.", sign));
                         Behaviour behaviour = (Behaviour) Activator.CreateInstance(type, entity, sign);
+                        outBehaviour = behaviour;
                         instanceBehaviours.Add(behaviour);
                         BehaviourDic.TryAdd(id, instanceBehaviours);
                     } catch (Exception e) {
@@ -48,6 +51,7 @@ namespace LazyPan {
                 }
             }
 
+            outBehaviour = default;
             return false;
         }
 
