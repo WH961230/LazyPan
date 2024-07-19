@@ -10,7 +10,7 @@
             ConsoleEx.Instance.ContentSave("behaviour", $"ID:{entity.ID} 注册行为:{BehaviourConfig.Get(BehaviourSign).Name}");
         }
 
-        protected void SetBehaviourData(Data data) {
+        public void SetBehaviourData(Data data) {
             BehaviourData = data;
         }
 
