@@ -6,6 +6,10 @@ namespace LazyPan {
         public Behaviour_#行为类型#_#行为标识#(Entity entity, string behaviourSign) : base(entity, behaviourSign) {
         }
 
+        public override void DelayedExecute() {
+            
+        }
+
 #自定义方法#
 
         public override void Clear() {
