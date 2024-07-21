@@ -14,6 +14,10 @@
             BehaviourData = data;
         }
 
+        public override void DelayedExecute() {
+            
+        }
+
         public abstract void DelayedExecute();
 
         public virtual void Clear() {
