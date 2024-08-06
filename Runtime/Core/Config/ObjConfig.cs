@@ -8,7 +8,7 @@ namespace LazyPan {
 		public string Type;
 		public string Name;
 		public string SetUpLocationInformationSign;
-		public string SetUpBehaviourSign;
+		public string SetUpBehaviourName;
 
         private static bool isInit;
         private static string content;
@@ -23,7 +23,7 @@ namespace LazyPan {
 				Type = values[2];
 				Name = values[3];
 				SetUpLocationInformationSign = values[4];
-				SetUpBehaviourSign = values[5];
+				SetUpBehaviourName = values[5];
 
             } catch (Exception e) {
                 Console.WriteLine(e);
