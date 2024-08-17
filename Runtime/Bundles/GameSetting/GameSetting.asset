@@ -28,4 +28,9 @@ MonoBehaviour:
   - AssetType: 4
     AssetAddress: Assets/LazyPan/Bundles/Images/
     AssetSuffix: .png
-  CommonAssetAddress: []
+  - AssetType: 3
+    AssetAddress: Assets/LazyPan/Bundles/Sounds/
+    AssetSuffix: .wav
+  CommonAssetAddress:
+  - AssetType: 0
+    AssetAddress: Assets/LazyPan/Bundles/Images/Cursor.png
