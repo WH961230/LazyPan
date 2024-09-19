@@ -32,5 +32,9 @@ namespace LazyPan {
             string filePath = Application.dataPath + $"/StreamingAssets/Csv/{fileName}.csv";
             Process.Start(filePath);
         }
+
+        public void OnStart() {
+            UnityEngine.Debug.LogError("Behaviour Start");
+        }
     }
 }

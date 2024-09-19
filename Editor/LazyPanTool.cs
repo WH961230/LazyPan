@@ -15,6 +15,7 @@ namespace LazyPan {
         private float animToolBarSpeed = 3f;
         private bool isAnimToolBar = false;
         private int currentToolBar = 0;
+        private int lastToolBar = 0;
         private int previousToolBar = 0;
 
         private string[] values = {
@@ -39,6 +40,10 @@ namespace LazyPan {
                 case 0:
                     if (editorWindows.TryGetValue(typeof(LazyPanGuide), out EditorWindow ret)) {
                         if (ret is LazyPanGuide ep) {
+                            if (lastToolBar != currentToolBar) {
+                                ep.OnStart();
+                                lastToolBar = currentToolBar;
+                            }
                             ep.OnCustomGUI(areaX);
                         }
                     } else {
@@ -49,6 +54,10 @@ namespace LazyPan {
                 case 1:
                     if (editorWindows.TryGetValue(typeof(LazyPanFlow), out ret)) {
                         if (ret is LazyPanFlow ep) {
+                            if (lastToolBar != currentToolBar) {
+                                ep.OnStart();
+                                lastToolBar = currentToolBar;
+                            }
                             ep.OnCustomGUI(areaX);
                         }
                     } else {
@@ -59,6 +68,10 @@ namespace LazyPan {
                 case 2:
                     if (editorWindows.TryGetValue(typeof(LazyPanEntity), out ret)) {
                         if (ret is LazyPanEntity ep) {
+                            if (lastToolBar != currentToolBar) {
+                                ep.OnStart();
+                                lastToolBar = currentToolBar;
+                            }
                             ep.OnCustomGUI(areaX);
                         }
                     } else {
@@ -69,6 +82,10 @@ namespace LazyPan {
                 case 3:
                     if (editorWindows.TryGetValue(typeof(LazyPanBehaviour), out ret)) {
                         if (ret is LazyPanBehaviour ep) {
+                            if (lastToolBar != currentToolBar) {
+                                ep.OnStart();
+                                lastToolBar = currentToolBar;
+                            }
                             ep.OnCustomGUI(areaX);
                         }
                     } else {

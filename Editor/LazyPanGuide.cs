@@ -149,16 +149,21 @@ namespace LazyPan {
             string targetBundlesConfigsInputPath = "Assets/LazyPan/Bundles/Configs/Input";
             string targetBundlesConfigsTxtPath = "Assets/LazyPan/Bundles/Configs/Txt";
             string targetBundlesConfigsSettingPath = "Assets/LazyPan/Bundles/Configs/Setting";
-            string targetBundlesConfigsSettingLocationInformationSettingPath = "Assets/LazyPan/Bundles/Configs/Setting/LocationInformationSetting";
+            string targetBundlesConfigsSettingLocationInformationSettingPath =
+                "Assets/LazyPan/Bundles/Configs/Setting/LocationInformationSetting";
+
             string targetBundlesImagesPath = "Assets/LazyPan/Bundles/Images";
-            string targetBundlesSoundPath = "Assets/LazyPan/Bundles/Sounds";
+
             string targetBundlesMaterialsPath = "Assets/LazyPan/Bundles/Materials";
+
             string targetBundlesPrefabsPath = "Assets/LazyPan/Bundles/Prefabs";
             string targetBundlesPrefabsGlobalPath = "Assets/LazyPan/Bundles/Prefabs/Global";
             string targetBundlesPrefabsObjPath = "Assets/LazyPan/Bundles/Prefabs/Obj";
             string targetBundlesPrefabsToolPath = "Assets/LazyPan/Bundles/Prefabs/Tool";
             string targetBundlesPrefabsUIPath = "Assets/LazyPan/Bundles/Prefabs/UI";
+
             string targetScriptsPath = "Assets/LazyPan/Scripts";
+
             string targetScriptsGamePlayPath = "Assets/LazyPan/Scripts/GamePlay";
             string targetScriptsGamePlayBehaviourPath = "Assets/LazyPan/Scripts/GamePlay/Behaviour";
             string targetScriptsGamePlayBehaviourTemplatePath = "Assets/LazyPan/Scripts/GamePlay/Behaviour/Template";
@@ -192,10 +197,6 @@ namespace LazyPan {
 
             if (!Directory.Exists(targetBundlesImagesPath)) {
                 Directory.CreateDirectory(targetBundlesImagesPath);
-            }
-
-            if (!Directory.Exists(targetBundlesSoundPath)) {
-                Directory.CreateDirectory(targetBundlesSoundPath);
             }
 
             if (!Directory.Exists(targetBundlesMaterialsPath)) {
@@ -276,7 +277,6 @@ namespace LazyPan {
             string targetBundlesPrefabsToolPath = "Assets/LazyPan/Bundles/Prefabs/Tool";
             string targetBundlesPrefabsUIPath = "Assets/LazyPan/Bundles/Prefabs/UI";
             string targetBundlesPrefabsImagePath = "Assets/LazyPan/Bundles/Images";
-            string targetBundlesPrefabsSoundPath = "Assets/LazyPan/Bundles/Sounds";
 
             if (Directory.Exists(targetBundlesPrefabsGlobalPath)) {
                 AddAssetToAddressableEntries(targetBundlesPrefabsGlobalPath);
@@ -296,10 +296,6 @@ namespace LazyPan {
 
             if (Directory.Exists(targetBundlesPrefabsImagePath)) {
                 AddAssetToAddressableEntries(targetBundlesPrefabsImagePath);
-            }
-
-            if (Directory.Exists(targetBundlesPrefabsSoundPath)) {
-                AddAssetToAddressableEntries(targetBundlesPrefabsSoundPath);
             }
 
             /*输入控制器*/
@@ -399,6 +395,10 @@ namespace LazyPan {
         private void TestSceneAndPlay() {
             EditorSceneManager.OpenScene("Assets/LazyPan/Bundles/Scenes/Launch.unity");
             EditorApplication.isPlaying = true;
+        }
+
+        public void OnStart() {
+            Debug.LogError("Guide Start");
         }
     }
 }

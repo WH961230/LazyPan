@@ -116,5 +116,9 @@ namespace LazyPan {
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
+
+        public void OnStart() {
+            UnityEngine.Debug.LogError("Entity Start");
+        }
     }
 }
