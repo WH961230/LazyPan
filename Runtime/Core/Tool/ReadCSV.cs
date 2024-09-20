@@ -1,5 +1,6 @@
 using System.IO;
 using LazyPan;
+using UnityEditor;
 using UnityEngine;
 
 public class ReadCSV : Singleton<ReadCSV> {
@@ -12,15 +13,22 @@ public class ReadCSV : Singleton<ReadCSV> {
             return; // 文件不存在，直接返回
         }
 
-        using (StreamReader sr = new StreamReader(Application.streamingAssetsPath + "/Csv/" + fileName + ".csv")) {
-            string str = null;
-            string line;
-            while ((line = sr.ReadLine()) != null) {
-                str += line + '\n';
-            }
+        try {
+            using (StreamReader sr = new StreamReader(filePath)) {
+                string str = null;
+                string line;
+                while ((line = sr.ReadLine()) != null) {
+                    str += line + '\n';
+                }
 
-            content = str.TrimEnd('\n');
-            lines = content.Split('\n');
+                content = str.TrimEnd('\n');
+                lines = content.Split('\n');
+            }
+        } catch {
+            content = string.Empty;
+            lines = default;
+            Debug.LogError($"错误 {filePath} 配置读取错误，需要将外部 Excel 软件关闭，请检查!");
+            EditorApplication.isPlaying = false;
         }
     }
 }
