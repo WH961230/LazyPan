@@ -11,6 +11,11 @@ using Object = UnityEngine.Object;
 namespace LazyPan {
     public class LazyPanGuide : EditorWindow {
         private bool isFoldout = true;
+        private LazyPanTool _tool;
+
+        public void OnStart(LazyPanTool tool) {
+            _tool = tool;
+        }
 
         public void OnCustomGUI(float areaX) {
             GUILayout.BeginArea(new Rect(areaX, 60, Screen.width, Screen.height));
@@ -19,36 +24,35 @@ namespace LazyPan {
             GUIStyle style = LazyPanTool.GetGUISkin("LogoGUISkin").GetStyle("label");
             GUILayout.Label("LAZYPAN", style);
             GUILayout.EndHorizontal();
-
+            
             GUILayout.BeginHorizontal();
             style = LazyPanTool.GetGUISkin("AnnotationGUISkin").GetStyle("label");
             GUILayout.Label("@LazyPan开发组工具 version 0.0.1", style);
             GUILayout.EndHorizontal();
-
+            
             EditorStyles.foldout.fontSize = 20;
             EditorStyles.foldout.fontStyle = FontStyle.Bold;
-            isFoldout = EditorGUILayout.Foldout(isFoldout, "LazyPan 环境配置", true);
+            isFoldout = EditorGUILayout.Foldout(isFoldout, " LazyPan 环境配置", true);
             if (isFoldout) {
                 GUILayout.BeginArea(new Rect(0, 120, Screen.width, Screen.height));
-
+            
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
                 GUILayout.Label("第一步: 点击按钮自动创建框架目录", style);
                 GUILayout.EndHorizontal();
-
+            
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if (GUILayout.Button("点击此处 自动创建框架目录", style)) {
                     CreateBaseFilePath();
                 }
-
                 GUILayout.EndHorizontal();
-
+            
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
                 GUILayout.Label("第二步: 点击按钮自动拷贝核心文件", style);
                 GUILayout.EndHorizontal();
-
+            
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if (GUILayout.Button("点击此处 自动拷贝核心文件（拷贝场景 CSV游戏配置 游戏自动化生成的Txt模板 游戏输入系统 等）", style)) {
@@ -63,79 +67,72 @@ namespace LazyPan {
                     CopyFilesToDirectory("Bundles/TextMeshPro", "");
                     CopyFilesToDirectory("Bundles/Csv/StreamingAssets/Csv", "StreamingAssets/Csv");
                 }
-
                 GUILayout.EndHorizontal();
-
+            
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
                 GUILayout.Label("第三步: 点击按钮自动配置Addressable资源", style);
                 GUILayout.EndHorizontal();
-
+            
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if (GUILayout.Button("点击此处 自动配置Addressable资源", style)) {
                     CreateAddressableAsset();
                     AutoInstallAddressableData();
                 }
-
                 GUILayout.EndHorizontal();
-
+            
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
                 GUILayout.Label("第四步: 点击按钮自动装载场景到BuildSettings", style);
                 GUILayout.EndHorizontal();
-
+            
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if (GUILayout.Button("点击此处 自动装载场景到BuildSettings", style)) {
                     MoveSceneToBuildSettings();
                 }
-
                 GUILayout.EndHorizontal();
-
+            
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
                 GUILayout.Label("第五步: 点击按钮自动创建流程", style);
                 GUILayout.EndHorizontal();
-
+            
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if (GUILayout.Button("点击此处 自动创建框架流程", style)) {
                     AutoGenerateFlow();
                 }
-
                 GUILayout.EndHorizontal();
-
+            
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
                 GUILayout.Label("第六步: 点击按钮自动生成行为(或模板)", style);
                 GUILayout.EndHorizontal();
-
+            
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if (GUILayout.Button("点击此处 自动生成行为", style)) {
                     AutoGenerateBehaviour();
                 }
-
                 if (GUILayout.Button("点击此处 自动生成行为模板(需要手动修改 将生成的 Behaviour_Template 后面的 Template 删除且放到父层级)", style)) {
                     AutoGenerateBehaviourTemplate();
                 }
-
                 GUILayout.EndHorizontal();
-
+            
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
                 GUILayout.Label("第七步: 打开入口场景 Launch", style);
                 GUILayout.EndHorizontal();
-
+            
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if (GUILayout.Button("点击此处 打开入口场景Launch 测试并运行", style)) {
                     TestSceneAndPlay();
                 }
-
                 GUILayout.EndHorizontal();
-
+            
                 GUILayout.EndArea();
             }
 
@@ -395,10 +392,6 @@ namespace LazyPan {
         private void TestSceneAndPlay() {
             EditorSceneManager.OpenScene("Assets/LazyPan/Bundles/Scenes/Launch.unity");
             EditorApplication.isPlaying = true;
-        }
-
-        public void OnStart() {
-            Debug.LogError("Guide Start");
         }
     }
 }

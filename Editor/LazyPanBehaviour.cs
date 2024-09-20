@@ -4,12 +4,23 @@ using UnityEngine;
 
 namespace LazyPan {
     public class LazyPanBehaviour : EditorWindow {
+        private LazyPanTool _tool;
+
+        public void OnStart(LazyPanTool tool) {
+            _tool = tool;
+        }
+
         public void OnCustomGUI(float areaX) {
             GUILayout.BeginArea(new Rect(areaX, 30, Screen.width, Screen.height));
 
             GUILayout.BeginHorizontal();
             GUIStyle style = LazyPanTool.GetGUISkin("LogoGUISkin").GetStyle("label");
             GUILayout.Label("BEHAVIOUR", style, GUILayout.Height(80));
+            GUILayout.EndHorizontal();
+            
+            GUILayout.BeginHorizontal();
+            style = LazyPanTool.GetGUISkin("AnnotationGUISkin").GetStyle("label");
+            GUILayout.Label("@行为 游戏内实体绑定的业务逻辑", style);
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
@@ -31,10 +42,6 @@ namespace LazyPan {
             string fileName = isGenerate ? "BehaviourGenerate" : "BehaviourConfig";
             string filePath = Application.dataPath + $"/StreamingAssets/Csv/{fileName}.csv";
             Process.Start(filePath);
-        }
-
-        public void OnStart() {
-            UnityEngine.Debug.LogError("Behaviour Start");
         }
     }
 }
