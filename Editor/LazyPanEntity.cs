@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using Debug = System.Diagnostics.Debug;
 
 namespace LazyPan {
     public class LazyPanEntity : EditorWindow {
@@ -115,11 +116,12 @@ namespace LazyPan {
 
                         GUILayout.BeginHorizontal();
                         for (int i = 0 ; i < str.Length ; i ++) {
+                            bool hasPrefab = HasPrefabTips(str);
                             Color fontColor;
                             if (i == 1) {
                                 fontColor = Color.cyan;
                             } else {
-                                fontColor = Color.green;
+                                fontColor = hasPrefab ? Color.green : Color.red;
                             }
                             GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
                             labelStyle.normal.textColor = fontColor; // 设置字体颜色
@@ -133,7 +135,9 @@ namespace LazyPan {
                             // 检测鼠标悬停
                             Rect buttonRect = GUILayoutUtility.GetLastRect();
                             if (buttonRect.Contains(Event.current.mousePosition)) {
-                                tooltip = "找不到预制体，请添加: " + str[0];
+                                if (!hasPrefab) {
+                                    tooltip = "找不到预制体，请添加: " + str[0];
+                                }
                             }
 
                             // 显示悬浮信息
@@ -153,6 +157,11 @@ namespace LazyPan {
             if(!hasContent || EntityConfigStr == null || EntityConfigStr.Length == 0) {
                 GUILayout.Label("找不到 EntityConfig.csv 的配置数据！\n请检查是否存在路径或者配置内数据是否为空！");
             }
+        }
+
+        private bool HasPrefabTips(string[] str) {
+            string prefabPath = $"Assets/LazyPan/Bundles/Prefabs/Obj/{str[1]}/{str[0]}.prefab";
+            return AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath) != null;
         }
 
         private void ExpandEntityPrefabData() {
