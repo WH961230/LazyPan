@@ -89,8 +89,6 @@ namespace LazyPan {
                             GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
                             labelStyle.normal.textColor = fontColor; // 设置字体颜色
                             if (GUILayout.Button(str[i], labelStyle, GUILayout.Width(150))) {
-                                Debug.LogError(str[i]);
-                                //点击的实体如果在实体配置存在直接跳转
                                 _tool.currentToolBar = 2;
                             }
                             hasContent = true;

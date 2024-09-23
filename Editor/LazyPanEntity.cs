@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using Debug = System.Diagnostics.Debug;
 
 namespace LazyPan {
     public class LazyPanEntity : EditorWindow {
@@ -15,13 +14,16 @@ namespace LazyPan {
         private string _instanceObjName;
         private string _instanceObjChineseName;
         private string[][] EntityConfigStr;
+        private string[][] BehaviourConfigStr;
+        private string[] behaviourNames;
+        private bool[] selectedOptions;
         private LazyPanTool _tool;
         
         public void OnStart(LazyPanTool tool) {
             _tool = tool;
             ReadCSV.Instance.Read("ObjConfig", out string content, out string[] lines);
             if (lines != null && lines.Length > 0) {
-                EntityConfigStr = new string[lines.Length - 2][];
+                EntityConfigStr = new string[lines.Length - 3][];
                 for (int i = 0; i < lines.Length; i++) {
                     if (i > 2) {
                         //遍历第三行到最后一行
@@ -36,6 +38,34 @@ namespace LazyPan {
                     }
                 }
             }
+
+            ReadCSV.Instance.Read("BehaviourConfig", out content, out lines);
+            if (lines != null && lines.Length > 0) {
+                BehaviourConfigStr = new string[lines.Length - 3][];
+                for (int i = 0; i < lines.Length; i++) {
+                    if (i > 2) {
+                        string[] lineStr = lines[i].Split(",");
+                        BehaviourConfigStr[i - 3] = new string[lineStr.Length];
+                        if (lineStr.Length > 0) {
+                            for (int j = 0; j < lineStr.Length; j++) {
+                                BehaviourConfigStr[i - 3][j] = lineStr[j];
+                            }
+                        }
+                    }
+                }
+            }
+
+            behaviourNames = new string[BehaviourConfigStr.Length];
+            for (int i = 0; i < BehaviourConfigStr.Length; i++) {
+                string[] tmpStr = BehaviourConfigStr[i];
+                for (int j = 0; j < tmpStr.Length; j++) {
+                    if (j == 1) {
+                        behaviourNames[i] = tmpStr[j];
+                    }
+                }
+            }
+
+            selectedOptions = new bool[behaviourNames.Length];
         }
 
         public void OnCustomGUI(float areaX) {
@@ -61,14 +91,6 @@ namespace LazyPan {
                     GUILayout.EndHorizontal();
                 }
             }
-            
-            // 增加间距
-            GUILayout.Space(10); // 增加10像素的上下间距
-            
-            isFoldoutData = EditorGUILayout.Foldout(isFoldoutData, " 预览实体配置数据", true);
-            if (isFoldoutData) {
-                ExpandEntityData();
-            }
 
             // 增加间距
             GUILayout.Space(10); // 增加10像素的上下间距
@@ -86,6 +108,7 @@ namespace LazyPan {
                 GUILayout.BeginHorizontal();
                 _instanceObjName = EditorGUILayout.TextField("实体标识(必填)", _instanceObjName, GUILayout.Height(20));
                 GUILayout.EndHorizontal();
+                GUI.SetNextControlName("objChineseName");
                 GUILayout.BeginHorizontal();
                 _instanceObjChineseName = EditorGUILayout.TextField("实体中文名字(必填)", _instanceObjChineseName, GUILayout.Height(20));
                 GUILayout.EndHorizontal();
@@ -98,8 +121,34 @@ namespace LazyPan {
                 }
                 GUILayout.EndVertical();
             }
-        
+
+            // 增加间距
+            GUILayout.Space(10); // 增加10像素的上下间距
+            
+            isFoldoutData = EditorGUILayout.Foldout(isFoldoutData, " 预览实体配置数据", true);
+            if (isFoldoutData) {
+                ExpandEntityData();
+            }
+
+            // 增加间距
+            GUILayout.Space(10); // 增加10像素的上下间距
+
+            if (GUILayout.Button("点击选择实体绑定行为")) {
+                GenericMenu menu = new GenericMenu();
+                for (int i = 0; i < behaviourNames.Length; i++) {
+                    bool isSelected = selectedOptions[i];
+                    int index = i;
+                    menu.AddItem(new GUIContent(behaviourNames[i]), isSelected, () => ToggleLayerSelection(index));
+                }
+                menu.ShowAsContext();
+            }
+
             GUILayout.EndArea();
+        }
+
+        //选中改变状态
+        private void ToggleLayerSelection(int index) {
+            selectedOptions[index] = !selectedOptions[index];
         }
 
         private void ExpandEntityData() {
@@ -120,15 +169,24 @@ namespace LazyPan {
                             Color fontColor;
                             if (i == 1) {
                                 fontColor = Color.cyan;
-                            } else {
+                            } else if (i == 0) {
                                 fontColor = hasPrefab ? Color.green : Color.red;
+                            }else {
+                                fontColor = Color.green;
                             }
                             GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
                             labelStyle.normal.textColor = fontColor; // 设置字体颜色
+
+                            //预制体相关判断
                             if (GUILayout.Button(str[i], labelStyle, GUILayout.Width(200))) {
-                                UnityEngine.Debug.LogError(str[i]);
-                                //点击的实体如果在实体配置存在直接跳转
-                                _tool.currentToolBar = 1;
+                                switch (i) {
+                                    case 0:
+                                        PrefabJudge(hasPrefab, str);
+                                        break;
+                                    case 5:
+                                        BehaviourJudge();
+                                        break;
+                                }
                             }
 
                             string tooltip = "";
@@ -159,6 +217,33 @@ namespace LazyPan {
             }
         }
 
+        //绑定行为相关
+        private void BehaviourJudge() {
+            //Color green
+            //Color red
+            //去 BehaviourConfig 判断是否配置行为 没有的话 点击 CSV 创建？ 有的话跳转到行为预览？
+        }
+
+        //预制体相关
+        private void PrefabJudge(bool hasPrefab, string[] str) {
+            //点击的实体如果在实体配置存在直接跳转 如果没有游戏物体创建
+            if (hasPrefab) {
+                // _tool.currentToolBar = 1;
+                string path = $"Assets/LazyPan/Bundles/Prefabs/Obj/{str[1]}/{str[0]}.prefab"; // 修改为你的路径
+                var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                if (prefab != null) {
+                    Selection.activeObject = prefab;
+                    EditorGUIUtility.PingObject(prefab);
+                }
+            } else {
+                _instanceFlowName = str[1];
+                _instanceTypeName = str[2];
+                _instanceObjName = str[0].Split("_")[2];
+                GUI.FocusControl("objChineseName");
+            }
+        }
+
+        //是否存在预制体
         private bool HasPrefabTips(string[] str) {
             string prefabPath = $"Assets/LazyPan/Bundles/Prefabs/Obj/{str[1]}/{str[0]}.prefab";
             return AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath) != null;
