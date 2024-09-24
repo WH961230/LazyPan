@@ -19,7 +19,7 @@ namespace LazyPan {
         private int previousToolBar = 0;
 
         private string[] values = {
-            "引导首页 GuideHomePage", "流程 Flow", "实体 Entity", "行为 Behaviour"
+            "引导首页 GuideHomePage", "流程 Flow", "实体 Entity", "行为 Behaviour", "教程 Tutorial", "支持 Support"
         };
 
         [MenuItem("LazyPan/打开引导面板 _F1")]
@@ -97,6 +97,34 @@ namespace LazyPan {
                             editorWindows.Add(typeof(LazyPanBehaviour), CreateInstance<LazyPanBehaviour>());
                         }
 
+                        break;
+                    case 4:
+                        if (editorWindows.TryGetValue(typeof(LazyPanTutorial), out ret)) {
+                            if (ret is LazyPanTutorial ep) {
+                                if (lastToolBar != currentToolBar) {
+                                    ep.OnStart(this);
+                                    lastToolBar = currentToolBar;
+                                }
+
+                                ep.OnCustomGUI(areaX);
+                            }
+                        } else {
+                            editorWindows.Add(typeof(LazyPanTutorial), CreateInstance<LazyPanTutorial>());
+                        }
+                        break;
+                    case 5:
+                        if (editorWindows.TryGetValue(typeof(LazyPanSupport), out ret)) {
+                            if (ret is LazyPanSupport ep) {
+                                if (lastToolBar != currentToolBar) {
+                                    ep.OnStart(this);
+                                    lastToolBar = currentToolBar;
+                                }
+
+                                ep.OnCustomGUI(areaX);
+                            }
+                        } else {
+                            editorWindows.Add(typeof(LazyPanSupport), CreateInstance<LazyPanSupport>());
+                        }
                         break;
                 }
             } catch {

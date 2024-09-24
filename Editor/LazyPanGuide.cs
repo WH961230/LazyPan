@@ -46,6 +46,9 @@ namespace LazyPan {
                 if (GUILayout.Button("点击此处 自动清除即将部署的同名目录", style)) {
                     DeleteExitDirectory();
                 }
+                if (GUILayout.Button("打开 发条游戏工作室 主页", style)) {
+                    Application.OpenURL("https://space.bilibili.com/29326484?spm_id_from=333.1007.0.0");
+                }
                 GUILayout.EndHorizontal();
             
                 GUILayout.BeginHorizontal();
