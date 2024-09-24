@@ -249,10 +249,6 @@ namespace LazyPan {
             return AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath) != null;
         }
 
-        private void ExpandEntityPrefabData() {
-            
-        }
-
         private void OpenEntityCsv() {
             string filePath = Application.dataPath + "/StreamingAssets/Csv/ObjConfig.csv";
             Process.Start(filePath);
