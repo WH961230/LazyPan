@@ -27,6 +27,9 @@ namespace LazyPan {
                     }
                 }
             }
+            
+            isFoldoutTool = true;
+            isFoldoutData = true;
         }
 
         public void OnCustomGUI(float areaX) {

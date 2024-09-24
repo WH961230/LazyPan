@@ -66,6 +66,10 @@ namespace LazyPan {
             }
 
             selectedOptions = new bool[behaviourNames.Length];
+            
+            isFoldoutTool = true;
+            isFoldoutData = true;
+            isFoldoutGenerate = true;
         }
 
         public void OnCustomGUI(float areaX) {

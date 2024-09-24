@@ -1,8 +1,6 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using UnityEditor;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 namespace LazyPan {
     public class LazyPanFlow : EditorWindow {
@@ -29,7 +27,10 @@ namespace LazyPan {
                         }
                     }
                 }
-            }
+            } 
+            
+            isFoldoutTool = true;
+            isFoldoutData = true;
         }
 
         public void OnCustomGUI(float areaX) {
