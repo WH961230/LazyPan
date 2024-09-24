@@ -116,14 +116,26 @@ namespace LazyPan {
                 if (GUILayout.Button("点击此处 自动生成行为", style)) {
                     AutoGenerateBehaviour();
                 }
-                if (GUILayout.Button("点击此处 自动生成行为模板(需要手动修改 将生成的 Behaviour_Template 后面的 Template 删除且放到父层级)", style)) {
+                if (GUILayout.Button("点击此处 自动生成行为模板(需手动修改生成的 XXX_Behaviour_Template 后面的 Template 删除且放到 Behaviour 目录下)", style)) {
                     AutoGenerateBehaviourTemplate();
                 }
                 GUILayout.EndHorizontal();
-            
+                
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
-                GUILayout.Label("第七步: 打开入口场景 Launch", style);
+                GUILayout.Label("第七步: 点击按钮加载框架预设的测试行为", style);
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
+                if (GUILayout.Button("点击此处 加载框架预设的测试行为", style)) {
+                    AutoDecompressBehaviourFile();
+                }
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
+                GUILayout.Label("第八步: 打开入口场景 Launch", style);
                 GUILayout.EndHorizontal();
             
                 GUILayout.BeginHorizontal();
@@ -137,6 +149,11 @@ namespace LazyPan {
             }
 
             GUILayout.EndArea();
+        }
+
+        private void AutoDecompressBehaviourFile() {
+            LazyPanTool.DecompressFile($"Packages/evoreek.lazypan/Test/BehaviourZipPack.zip", "Assets/LazyPan/Scripts/GamePlay/Behaviour");
+            AssetDatabase.Refresh();
         }
 
         private void CreateBaseFilePath() {

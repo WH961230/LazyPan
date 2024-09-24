@@ -100,6 +100,7 @@
         public static string ING = "ing";//进行中
         public static string ENERGY = "Energy";//能量
         public static string MAX = "Max";//最大
+        public static string JUMP = "Jump";//跳转
 
         //组合A+B
         public static string Assemble(string labelA, string labelB) {

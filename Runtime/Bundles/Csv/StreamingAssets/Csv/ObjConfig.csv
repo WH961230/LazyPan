@@ -4,6 +4,8 @@ string,string,string,string,string,string
 Obj_Camera_Camera,SceneA,Camera,开始场景A相机,,跟随玩家
 Obj_Player_Player,SceneA,Player,开始场景A玩家,LocationInf_SceneA_Player,玩家输入移动
 Obj_Global_Global,SceneA,Global,开始场景A全局,,
+Obj_Event_SceneAUI,SceneA,Event,开始场景AUI,,场景AUI事件
 Obj_Camera_Camera,SceneB,Camera,战斗场景B相机,,跟随玩家
 Obj_Player_Player,SceneB,Player,战斗场景B玩家,LocationInf_SceneB_Player,玩家输入移动
 Obj_Global_Global,SceneB,Global,战斗场景B全局,,
+Obj_Event_SceneBUI,SceneB,Event,战斗场景BUI,,场景BUI事件
