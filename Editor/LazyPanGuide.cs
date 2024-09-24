@@ -35,6 +35,18 @@ namespace LazyPan {
             isFoldout = EditorGUILayout.Foldout(isFoldout, " LazyPan 环境配置", true);
             if (isFoldout) {
                 GUILayout.BeginArea(new Rect(0, 120, Screen.width, Screen.height));
+                
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
+                GUILayout.Label("第零步: 点击按钮自动清除即将部署的同名目录谨慎使用！   （目录包含 Assets 下的   1、AddressableAssetsData   2、LazyPan   3、StreamingAssets   4、TextMesh Pro）", style);
+                GUILayout.EndHorizontal();
+            
+                GUILayout.BeginHorizontal();
+                style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
+                if (GUILayout.Button("点击此处 自动清除即将部署的同名目录", style)) {
+                    DeleteExitDirectory();
+                }
+                GUILayout.EndHorizontal();
             
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
@@ -149,6 +161,26 @@ namespace LazyPan {
             }
 
             GUILayout.EndArea();
+        }
+
+        private void DeleteExitDirectory() {
+            string pathA = "Assets/AddressableAssetsData";
+            string pathB = "Assets/LazyPan";
+            string pathC = "Assets/StreamingAssets";
+            string pathD = "Assets/TextMesh Pro";
+            if (AssetDatabase.IsValidFolder(pathA)) {
+                AssetDatabase.DeleteAsset(pathA);
+            }
+            if (AssetDatabase.IsValidFolder(pathB)) {
+                AssetDatabase.DeleteAsset(pathB);
+            }
+            if (AssetDatabase.IsValidFolder(pathC)) {
+                AssetDatabase.DeleteAsset(pathC);
+            }
+            if (AssetDatabase.IsValidFolder(pathD)) {
+                AssetDatabase.DeleteAsset(pathD);
+            }
+            AssetDatabase.Refresh();
         }
 
         private void AutoDecompressBehaviourFile() {
