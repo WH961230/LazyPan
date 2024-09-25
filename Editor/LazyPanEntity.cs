@@ -73,11 +73,11 @@ namespace LazyPan {
         }
 
         public void OnCustomGUI(float areaX) {
-            GUILayout.BeginArea(new Rect(areaX, 30, Screen.width, Screen.height));
+            GUILayout.BeginArea(new Rect(areaX, 60, Screen.width, Screen.height));
 
             GUILayout.BeginHorizontal();
             GUIStyle style = LazyPanTool.GetGUISkin("LogoGUISkin").GetStyle("label");
-            GUILayout.Label("ENTITY", style, GUILayout.Height(80));
+            GUILayout.Label("ENTITY", style);
             GUILayout.EndHorizontal();
             
             GUILayout.BeginHorizontal();
@@ -168,6 +168,8 @@ namespace LazyPan {
                         }
 
                         GUILayout.BeginHorizontal();
+                        GUILayout.FlexibleSpace();
+
                         for (int i = 0 ; i < str.Length ; i ++) {
                             bool hasPrefab = HasPrefabTips(str);
                             Color fontColor;
@@ -182,7 +184,7 @@ namespace LazyPan {
                             labelStyle.normal.textColor = fontColor; // 设置字体颜色
 
                             //预制体相关判断
-                            if (GUILayout.Button(str[i], labelStyle, GUILayout.Width(200))) {
+                            if (GUILayout.Button(str[i], labelStyle, GUILayout.Width(Screen.width / str.Length - 10))) {
                                 switch (i) {
                                     case 0:
                                         PrefabJudge(hasPrefab, str);
@@ -210,6 +212,7 @@ namespace LazyPan {
 
                             hasContent = true;
                         }
+                        GUILayout.FlexibleSpace();
                         GUILayout.EndHorizontal();                
                     }
                 }

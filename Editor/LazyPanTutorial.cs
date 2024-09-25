@@ -8,7 +8,7 @@ namespace LazyPan {
         }
 
         public void OnCustomGUI(float areaX) {
-            GUILayout.BeginArea(new Rect(areaX, 30, Screen.width, Screen.height));
+            GUILayout.BeginArea(new Rect(areaX, 60, Screen.width, Screen.height));
 
             GUILayout.BeginHorizontal();
             GUIStyle style = LazyPanTool.GetGUISkin("LogoGUISkin").GetStyle("label");

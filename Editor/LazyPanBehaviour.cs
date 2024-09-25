@@ -33,11 +33,11 @@ namespace LazyPan {
         }
 
         public void OnCustomGUI(float areaX) {
-            GUILayout.BeginArea(new Rect(areaX, 30, Screen.width, Screen.height));
+            GUILayout.BeginArea(new Rect(areaX, 60, Screen.width, Screen.height));
 
             GUILayout.BeginHorizontal();
             GUIStyle style = LazyPanTool.GetGUISkin("LogoGUISkin").GetStyle("label");
-            GUILayout.Label("BEHAVIOUR", style, GUILayout.Height(80));
+            GUILayout.Label("BEHAVIOUR", style);
             GUILayout.EndHorizontal();
             
             GUILayout.BeginHorizontal();
@@ -74,21 +74,17 @@ namespace LazyPan {
         private void ExpandBehaviourData() {
             if (BehaviourConfigStr != null && BehaviourConfigStr.Length > 0) {
                 GUILayout.BeginVertical();
-                string behaviourSign = "";
                 foreach (var str in BehaviourConfigStr) {
                     if (str != null) {
-                        if (behaviourSign != str[1]) {
-                            behaviourSign = str[1];
-                            GUILayout.Label("");
-                        }
-
                         GUILayout.BeginHorizontal();
+                        GUILayout.FlexibleSpace();
                         for (int i = 0 ; i < str.Length ; i ++) {
                             GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
                             labelStyle.normal.textColor = Color.green; // 设置字体颜色
-                            if (GUILayout.Button(str[i], labelStyle, GUILayout.Width(200))) {
+                            if (GUILayout.Button(str[i], labelStyle, GUILayout.Width(Screen.width / str.Length - 10))) {
                             }
                         }
+                        GUILayout.FlexibleSpace();
                         GUILayout.EndHorizontal();                
                     }
                 }

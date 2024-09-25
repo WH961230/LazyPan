@@ -34,11 +34,11 @@ namespace LazyPan {
         }
 
         public void OnCustomGUI(float areaX) {
-            GUILayout.BeginArea(new Rect(areaX, 30, Screen.width, Screen.height));
+            GUILayout.BeginArea(new Rect(areaX, 60, Screen.width, Screen.height));
 
             GUILayout.BeginHorizontal();
             GUIStyle style = LazyPanTool.GetGUISkin("LogoGUISkin").GetStyle("label");
-            GUILayout.Label("FLOW", style, GUILayout.Height(80));
+            GUILayout.Label("FLOW", style);
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
@@ -71,6 +71,7 @@ namespace LazyPan {
             bool hasContent = false;
             if (FlowGenerateStr != null && FlowGenerateStr.Length > 0) {
                 GUILayout.BeginVertical();
+
                 string flowSign = "";
                 foreach (var str in FlowGenerateStr) {
                     if (str != null) {
@@ -80,6 +81,8 @@ namespace LazyPan {
                         }
 
                         GUILayout.BeginHorizontal();
+                        GUILayout.FlexibleSpace();
+
                         for (int i = 0 ; i < str.Length ; i ++) {
                             Color fontColor;
                             if (i == 0) {
@@ -89,14 +92,17 @@ namespace LazyPan {
                             }
                             GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
                             labelStyle.normal.textColor = fontColor; // 设置字体颜色
-                            if (GUILayout.Button(str[i], labelStyle, GUILayout.Width(150))) {
+                            if (GUILayout.Button(str[i], labelStyle, GUILayout.Width(Screen.width / str.Length - 10))) {
                                 _tool.currentToolBar = 2;
                             }
                             hasContent = true;
                         }
+                        
+                        GUILayout.FlexibleSpace();
                         GUILayout.EndHorizontal();                
                     }
                 }
+
                 GUILayout.EndVertical();
             }
 
