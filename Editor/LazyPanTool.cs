@@ -158,6 +158,17 @@ namespace LazyPan {
             return AssetDatabase.LoadAssetAtPath<GUISkin>(
                 $"Packages/evoreek.lazypan/Runtime/Bundles/GUISkin/{guiskinname}.guiskin");
         }
+        
+        //绘制边框
+        public static void DrawBorder(Rect rect, Color color) {
+            Color borderColor = color;
+
+            // 绘制四条边
+            EditorGUI.DrawRect(new Rect(rect.xMin, rect.yMin, rect.width, 1), borderColor); // Top
+            EditorGUI.DrawRect(new Rect(rect.xMin, rect.yMax - 1, rect.width, 1), borderColor); // Bottom
+            EditorGUI.DrawRect(new Rect(rect.xMin, rect.yMin, 1, rect.height), borderColor); // Left
+            EditorGUI.DrawRect(new Rect(rect.xMax - 1, rect.yMin, 1, rect.height), borderColor); // Right
+        }
 
         //压缩文件
         public static void CompressFile(string sourceFolder, string destinationZipFile) {

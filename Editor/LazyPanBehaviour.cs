@@ -34,7 +34,57 @@ namespace LazyPan {
 
         public void OnCustomGUI(float areaX) {
             GUILayout.BeginArea(new Rect(areaX, 60, Screen.width, Screen.height));
+            Title();
+            AutoTool();
+            PreviewBehaviourConfigData();
+            GUILayout.EndArea();
+        }
 
+        private void PreviewBehaviourConfigData() {
+            isFoldoutData = EditorGUILayout.Foldout(isFoldoutData, " 预览实体配置数据", true);
+            Rect rect = GUILayoutUtility.GetLastRect();
+            float height = 0;
+            if (isFoldoutData) {
+                GUILayout.Label("");
+                height += GUILayoutUtility.GetLastRect().height;
+                ExpandBehaviourData();
+                height += GUILayoutUtility.GetLastRect().height;
+            } else {
+                GUILayout.Space(10);
+            }
+            
+            LazyPanTool.DrawBorder(new Rect(rect.x + 2f, rect.y - 2f, rect.width - 2f, rect.height + height + 5f), Color.white);
+
+            GUILayout.Space(10);
+        }
+
+        private void AutoTool() {
+            isFoldoutTool = EditorGUILayout.Foldout(isFoldoutTool, " 自动化工具", true);
+            Rect rect = GUILayoutUtility.GetLastRect();
+            float height = 0;
+            if (isFoldoutTool) {
+                GUILayout.Label("");
+                height += GUILayoutUtility.GetLastRect().height;
+                GUILayout.BeginHorizontal();
+                GUIStyle style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
+                if(GUILayout.Button("打开行为配置表 Csv", style)) {
+                    OpenBehaviourCsv(false);
+                }
+                if(GUILayout.Button("打开行为自动脚本生成配置表 Csv", style)) {
+                    OpenBehaviourCsv(true);
+                }
+                GUILayout.EndHorizontal();
+                height += GUILayoutUtility.GetLastRect().height;
+            } else {
+                GUILayout.Space(10);
+            }
+            
+            LazyPanTool.DrawBorder(new Rect(rect.x + 2f, rect.y - 2f, rect.width - 2f, rect.height + height + 5f), Color.white);
+
+            GUILayout.Space(10);
+        }
+
+        private void Title() {
             GUILayout.BeginHorizontal();
             GUIStyle style = LazyPanTool.GetGUISkin("LogoGUISkin").GetStyle("label");
             GUILayout.Label("BEHAVIOUR", style);
@@ -44,31 +94,8 @@ namespace LazyPan {
             style = LazyPanTool.GetGUISkin("AnnotationGUISkin").GetStyle("label");
             GUILayout.Label("@行为 游戏内实体绑定的业务逻辑", style);
             GUILayout.EndHorizontal();
-
-            isFoldoutTool = EditorGUILayout.Foldout(isFoldoutTool, " 自动化工具", true);
-            if (isFoldoutTool) {
-                GUILayout.Label("");
-                GUILayout.BeginHorizontal();
-
-                style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
-                if(GUILayout.Button("打开行为配置表 Csv", style, GUILayout.Height(80))) {
-                    OpenBehaviourCsv(false);
-                }
-                if(GUILayout.Button("打开行为自动脚本生成配置表 Csv", style, GUILayout.Height(80))) {
-                    OpenBehaviourCsv(true);
-                }
-                GUILayout.EndHorizontal();
-            }
-
-            // 增加间距
-            GUILayout.Space(10); // 增加10像素的上下间距
             
-            isFoldoutData = EditorGUILayout.Foldout(isFoldoutData, " 预览实体配置数据", true);
-            if (isFoldoutData) {
-                ExpandBehaviourData();
-            }
-
-            GUILayout.EndArea();
+            GUILayout.Space(10);
         }
 
         private void ExpandBehaviourData() {

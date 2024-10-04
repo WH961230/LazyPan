@@ -30,41 +30,50 @@ namespace LazyPan {
             GUILayout.Label("@LazyPan开发组工具 version 0.0.1", style);
             GUILayout.EndHorizontal();
             
+            GUILayout.Space(10);
+
             EditorStyles.foldout.fontSize = 20;
             EditorStyles.foldout.fontStyle = FontStyle.Bold;
             isFoldout = EditorGUILayout.Foldout(isFoldout, " LazyPan 环境配置", true);
+            Rect rect = GUILayoutUtility.GetLastRect();
+            float height = 0;
             if (isFoldout) {
                 GUILayout.BeginArea(new Rect(0, 120, Screen.width, Screen.height));
-                
+
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
                 GUILayout.Label("第零步: 点击按钮自动清除即将部署的同名目录谨慎使用！   （目录包含 Assets 下的   1、AddressableAssetsData   2、LazyPan   3、StreamingAssets   4、TextMesh Pro）", style);
                 GUILayout.EndHorizontal();
-            
+                height += GUILayoutUtility.GetLastRect().height;
+
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if (GUILayout.Button("点击此处 自动清除即将部署的同名目录", style)) {
                     DeleteExitDirectory();
                 }
                 GUILayout.EndHorizontal();
-            
+                height += GUILayoutUtility.GetLastRect().height;
+
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
                 GUILayout.Label("第一步: 点击按钮自动创建框架目录", style);
                 GUILayout.EndHorizontal();
-            
+                height += GUILayoutUtility.GetLastRect().height;
+
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if (GUILayout.Button("点击此处 自动创建框架目录", style)) {
                     CreateBaseFilePath();
                 }
                 GUILayout.EndHorizontal();
-            
+                height += GUILayoutUtility.GetLastRect().height;
+
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
                 GUILayout.Label("第二步: 点击按钮自动拷贝核心文件", style);
                 GUILayout.EndHorizontal();
-            
+                height += GUILayoutUtility.GetLastRect().height;
+
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if (GUILayout.Button("点击此处 自动拷贝核心文件（拷贝场景 CSV游戏配置 游戏自动化生成的Txt模板 游戏输入系统 等）", style)) {
@@ -80,12 +89,14 @@ namespace LazyPan {
                     CopyFilesToDirectory("Bundles/Csv/StreamingAssets/Csv", "StreamingAssets/Csv");
                 }
                 GUILayout.EndHorizontal();
-            
+                height += GUILayoutUtility.GetLastRect().height;
+
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
                 GUILayout.Label("第三步: 点击按钮自动配置Addressable资源", style);
                 GUILayout.EndHorizontal();
-            
+                height += GUILayoutUtility.GetLastRect().height;
+
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if (GUILayout.Button("点击此处 自动配置Addressable资源", style)) {
@@ -93,36 +104,42 @@ namespace LazyPan {
                     AutoInstallAddressableData();
                 }
                 GUILayout.EndHorizontal();
-            
+                height += GUILayoutUtility.GetLastRect().height;
+
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
                 GUILayout.Label("第四步: 点击按钮自动装载场景到BuildSettings", style);
                 GUILayout.EndHorizontal();
-            
+                height += GUILayoutUtility.GetLastRect().height;
+
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if (GUILayout.Button("点击此处 自动装载场景到BuildSettings", style)) {
                     MoveSceneToBuildSettings();
                 }
                 GUILayout.EndHorizontal();
-            
+                height += GUILayoutUtility.GetLastRect().height;
+
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
                 GUILayout.Label("第五步: 点击按钮自动创建流程", style);
                 GUILayout.EndHorizontal();
-            
+                height += GUILayoutUtility.GetLastRect().height;
+
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if (GUILayout.Button("点击此处 自动创建框架流程", style)) {
                     AutoGenerateFlow();
                 }
                 GUILayout.EndHorizontal();
-            
+                height += GUILayoutUtility.GetLastRect().height;
+
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
                 GUILayout.Label("第六步: 点击按钮自动生成行为(或模板)", style);
                 GUILayout.EndHorizontal();
-            
+                height += GUILayoutUtility.GetLastRect().height;
+
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if (GUILayout.Button("点击此处 自动生成行为", style)) {
@@ -132,11 +149,13 @@ namespace LazyPan {
                     AutoGenerateBehaviourTemplate();
                 }
                 GUILayout.EndHorizontal();
-                
+                height += GUILayoutUtility.GetLastRect().height;
+
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
                 GUILayout.Label("第七步: 点击按钮加载框架预设的测试行为", style);
                 GUILayout.EndHorizontal();
+                height += GUILayoutUtility.GetLastRect().height;
 
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
@@ -144,21 +163,29 @@ namespace LazyPan {
                     AutoDecompressBehaviourFile();
                 }
                 GUILayout.EndHorizontal();
+                height += GUILayoutUtility.GetLastRect().height;
 
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
                 GUILayout.Label("第八步: 打开入口场景 Launch", style);
                 GUILayout.EndHorizontal();
-            
+                height += GUILayoutUtility.GetLastRect().height;
+
                 GUILayout.BeginHorizontal();
                 style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if (GUILayout.Button("点击此处 打开入口场景Launch 测试并运行", style)) {
                     TestSceneAndPlay();
                 }
                 GUILayout.EndHorizontal();
-            
+                height += GUILayoutUtility.GetLastRect().height;
+                height += 90;
+
                 GUILayout.EndArea();
+            } else {
+                GUILayout.Space(10);
             }
+            
+            LazyPanTool.DrawBorder(new Rect(rect.x + 2f, rect.y - 2f, rect.width - 2f, rect.height + height + 5f), Color.white);
 
             GUILayout.EndArea();
         }

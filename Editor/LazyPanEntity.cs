@@ -74,32 +74,46 @@ namespace LazyPan {
 
         public void OnCustomGUI(float areaX) {
             GUILayout.BeginArea(new Rect(areaX, 60, Screen.width, Screen.height));
+            Title();
+            AutoTool();
+            ManualGeneratePrefabTool();
+            PreviewEntityConfigData();
+            SelectBindBehaviour();
+            GUILayout.EndArea();
+        }
 
-            GUILayout.BeginHorizontal();
-            GUIStyle style = LazyPanTool.GetGUISkin("LogoGUISkin").GetStyle("label");
-            GUILayout.Label("ENTITY", style);
-            GUILayout.EndHorizontal();
-            
-            GUILayout.BeginHorizontal();
-            style = LazyPanTool.GetGUISkin("AnnotationGUISkin").GetStyle("label");
-            GUILayout.Label("@实体 游戏内最小单位", style);
-            GUILayout.EndHorizontal();
-
-            style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
-            isFoldoutTool = EditorGUILayout.Foldout(isFoldoutTool, " 自动化工具", true);
-            if (isFoldoutTool) {
-                GUILayout.Label("");
-                if(GUILayout.Button("打开实体配置表 Csv", style, GUILayout.Height(80))) {
-                    GUILayout.BeginHorizontal();
-                    OpenEntityCsv();
-                    GUILayout.EndHorizontal();
+        private void SelectBindBehaviour() {
+            if (GUILayout.Button("点击选择实体绑定行为")) {
+                GenericMenu menu = new GenericMenu();
+                for (int i = 0; i < behaviourNames.Length; i++) {
+                    bool isSelected = selectedOptions[i];
+                    int index = i;
+                    menu.AddItem(new GUIContent(behaviourNames[i]), isSelected, () => ToggleLayerSelection(index));
                 }
+                menu.ShowAsContext();
             }
+        }
 
-            // 增加间距
-            GUILayout.Space(10); // 增加10像素的上下间距
+        private void PreviewEntityConfigData() {
+            isFoldoutData = EditorGUILayout.Foldout(isFoldoutData, " 预览实体配置数据", true);
+            Rect rect = GUILayoutUtility.GetLastRect();
+            float height = 0;
+            if (isFoldoutData) {
+                ExpandEntityData();
+                height += GUILayoutUtility.GetLastRect().height;
+            } else {
+                GUILayout.Space(10);
+            }
+            
+            LazyPanTool.DrawBorder(new Rect(rect.x + 2f, rect.y - 2f, rect.width - 2f, rect.height + height + 5f), Color.white);
 
+            GUILayout.Space(10);
+        }
+
+        private void ManualGeneratePrefabTool() {
             isFoldoutGenerate = EditorGUILayout.Foldout(isFoldoutGenerate, " 手动创建预制体工具", true);
+            Rect rect = GUILayoutUtility.GetLastRect();
+            float height = 0;
             if (isFoldoutGenerate) {
                 GUILayout.BeginVertical();
                 GUILayout.Label("");
@@ -116,7 +130,7 @@ namespace LazyPan {
                 GUILayout.BeginHorizontal();
                 _instanceObjChineseName = EditorGUILayout.TextField("实体中文名字(必填)", _instanceObjChineseName, GUILayout.Height(20));
                 GUILayout.EndHorizontal();
-                style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
+                GUIStyle style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if(GUILayout.Button("创建实体物体", style)) {
                     InstanceCustomObj();
                 }
@@ -124,30 +138,51 @@ namespace LazyPan {
                     InstanceCustomLocationSetting();
                 }
                 GUILayout.EndVertical();
+                height += GUILayoutUtility.GetLastRect().height;
+            } else {
+                GUILayout.Space(10);
             }
-
-            // 增加间距
-            GUILayout.Space(10); // 增加10像素的上下间距
             
-            isFoldoutData = EditorGUILayout.Foldout(isFoldoutData, " 预览实体配置数据", true);
-            if (isFoldoutData) {
-                ExpandEntityData();
-            }
+            LazyPanTool.DrawBorder(new Rect(rect.x + 2f, rect.y - 2f, rect.width - 2f, rect.height + height + 5f), Color.white);
 
-            // 增加间距
-            GUILayout.Space(10); // 增加10像素的上下间距
+            GUILayout.Space(10);
+        }
 
-            if (GUILayout.Button("点击选择实体绑定行为")) {
-                GenericMenu menu = new GenericMenu();
-                for (int i = 0; i < behaviourNames.Length; i++) {
-                    bool isSelected = selectedOptions[i];
-                    int index = i;
-                    menu.AddItem(new GUIContent(behaviourNames[i]), isSelected, () => ToggleLayerSelection(index));
+        private void AutoTool() {
+            GUIStyle style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
+            isFoldoutTool = EditorGUILayout.Foldout(isFoldoutTool, " 自动化工具", true);
+            Rect rect = GUILayoutUtility.GetLastRect();
+            float height = 0;
+            if (isFoldoutTool) {
+                GUILayout.Label("");
+                height += GUILayoutUtility.GetLastRect().height;
+                if(GUILayout.Button("打开实体配置表 Csv", style)) {
+                    GUILayout.BeginHorizontal();
+                    OpenEntityCsv();
+                    GUILayout.EndHorizontal();
                 }
-                menu.ShowAsContext();
+                height += GUILayoutUtility.GetLastRect().height;
+            } else {
+                GUILayout.Space(10);
             }
+            
+            LazyPanTool.DrawBorder(new Rect(rect.x + 2f, rect.y - 2f, rect.width - 2f, rect.height + height + 5f), Color.white);
 
-            GUILayout.EndArea();
+            GUILayout.Space(10);
+        }
+
+        private void Title() {
+            GUILayout.BeginHorizontal();
+            GUIStyle style = LazyPanTool.GetGUISkin("LogoGUISkin").GetStyle("label");
+            GUILayout.Label("ENTITY", style);
+            GUILayout.EndHorizontal();
+            
+            GUILayout.BeginHorizontal();
+            style = LazyPanTool.GetGUISkin("AnnotationGUISkin").GetStyle("label");
+            GUILayout.Label("@实体 游戏内最小单位", style);
+            GUILayout.EndHorizontal();
+
+            GUILayout.Space(10);
         }
 
         //选中改变状态

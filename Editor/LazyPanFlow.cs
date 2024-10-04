@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace LazyPan {
     public class LazyPanFlow : EditorWindow {
+        private float width;
+        private float height;
         private bool isFoldoutTool;
         private bool isFoldoutData;
         private string[][] FlowGenerateStr;
@@ -35,7 +37,49 @@ namespace LazyPan {
 
         public void OnCustomGUI(float areaX) {
             GUILayout.BeginArea(new Rect(areaX, 60, Screen.width, Screen.height));
+            Title();
+            AutoTool();
+            PreviewGenerateFlowData();
+            GUILayout.EndArea();
+        }
 
+        private void PreviewGenerateFlowData() {
+            isFoldoutData = EditorGUILayout.Foldout(isFoldoutData, " 预览流程自动化数据", true);
+            Rect rect = GUILayoutUtility.GetLastRect();
+            float height = 0;
+            if (isFoldoutData) {
+                ExpandFlowData();
+                height += GUILayoutUtility.GetLastRect().height;
+            } else {
+                GUILayout.Space(10);
+            }
+            LazyPanTool.DrawBorder(new Rect(rect.x + 2f, rect.y - 2f, rect.width - 2f, rect.height + height + 5f), Color.white);
+        }
+
+        private void AutoTool() {
+            isFoldoutTool = EditorGUILayout.Foldout(isFoldoutTool, " 自动化工具", true);
+            Rect rect = GUILayoutUtility.GetLastRect();
+            float height = 0;
+            if (isFoldoutTool) {
+                GUILayout.Label("");
+                height += GUILayoutUtility.GetLastRect().height;
+                GUILayout.BeginHorizontal();
+                GUIStyle style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
+                if(GUILayout.Button("打开流程配置表 Csv", style)) {
+                    OpenFlowCsv();
+                }
+                GUILayout.EndHorizontal();
+                height += GUILayoutUtility.GetLastRect().height;
+            } else {
+                GUILayout.Space(10);
+            }
+
+            LazyPanTool.DrawBorder(new Rect(rect.x + 2f, rect.y - 2f, rect.width - 2f, rect.height + height + 5f), Color.white);
+
+            GUILayout.Space(10);
+        }
+
+        private void Title() {
             GUILayout.BeginHorizontal();
             GUIStyle style = LazyPanTool.GetGUISkin("LogoGUISkin").GetStyle("label");
             GUILayout.Label("FLOW", style);
@@ -46,25 +90,7 @@ namespace LazyPan {
             GUILayout.Label("@流程 游戏内主流程", style);
             GUILayout.EndHorizontal();
 
-            style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
-            isFoldoutTool = EditorGUILayout.Foldout(isFoldoutTool, " 自动化工具", true);
-            if (isFoldoutTool) {
-                GUILayout.BeginHorizontal();
-                if(GUILayout.Button("打开流程配置表 Csv", style, GUILayout.Height(80))) {
-                    OpenFlowCsv();
-                }
-                GUILayout.EndHorizontal();
-            }
-
-            // 增加间距
-            GUILayout.Space(10); // 增加10像素的上下间距
-            
-            isFoldoutData = EditorGUILayout.Foldout(isFoldoutData, " 预览流程自动化数据", true);
-            if (isFoldoutData) {
-                ExpandFlowData();
-            }
-
-            GUILayout.EndArea();
+            GUILayout.Space(10);
         }
 
         private void ExpandFlowData() {
