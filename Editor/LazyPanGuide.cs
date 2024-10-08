@@ -178,7 +178,7 @@ namespace LazyPan {
                 }
                 GUILayout.EndHorizontal();
                 height += GUILayoutUtility.GetLastRect().height;
-                height += 90;
+                height += 85f;
 
                 GUILayout.EndArea();
             } else {

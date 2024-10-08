@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 namespace LazyPan {
     public class LazyPanEntity : EditorWindow {
@@ -78,20 +79,7 @@ namespace LazyPan {
             AutoTool();
             ManualGeneratePrefabTool();
             PreviewEntityConfigData();
-            SelectBindBehaviour();
             GUILayout.EndArea();
-        }
-
-        private void SelectBindBehaviour() {
-            if (GUILayout.Button("点击选择实体绑定行为")) {
-                GenericMenu menu = new GenericMenu();
-                for (int i = 0; i < behaviourNames.Length; i++) {
-                    bool isSelected = selectedOptions[i];
-                    int index = i;
-                    menu.AddItem(new GUIContent(behaviourNames[i]), isSelected, () => ToggleLayerSelection(index));
-                }
-                menu.ShowAsContext();
-            }
         }
 
         private void PreviewEntityConfigData() {
@@ -195,6 +183,7 @@ namespace LazyPan {
             if (EntityConfigStr != null && EntityConfigStr.Length > 0) {
                 GUILayout.BeginVertical();
                 string entitySign = "";
+                int displayCount = 0;
                 foreach (var str in EntityConfigStr) {
                     if (str != null) {
                         if (entitySign != str[1]) {
@@ -205,27 +194,34 @@ namespace LazyPan {
                         GUILayout.BeginHorizontal();
                         GUILayout.FlexibleSpace();
 
-                        for (int i = 0 ; i < str.Length ; i ++) {
+                        string strContent = "";
+                        displayCount = str.Length;
+                        for (int i = 0; i < displayCount; i++) {
+                            bool isLast = false;
+                            strContent = str[i];
+
                             bool hasPrefab = HasPrefabTips(str);
                             Color fontColor;
                             if (i == 1) {
                                 fontColor = Color.cyan;
                             } else if (i == 0) {
                                 fontColor = hasPrefab ? Color.green : Color.red;
-                            }else {
+                            } else {
                                 fontColor = Color.green;
                             }
+
                             GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
                             labelStyle.normal.textColor = fontColor; // 设置字体颜色
 
                             //预制体相关判断
-                            if (GUILayout.Button(str[i], labelStyle, GUILayout.Width(Screen.width / str.Length - 10))) {
+                            if (GUILayout.Button(strContent, isLast ? null : labelStyle,
+                                GUILayout.Width(Screen.width / (displayCount + 1) - 10))) {
                                 switch (i) {
                                     case 0:
                                         PrefabJudge(hasPrefab, str);
                                         break;
                                     case 5:
-                                        BehaviourJudge();
+                                        BehaviourJudge(str);
                                         break;
                                 }
                             }
@@ -241,12 +237,17 @@ namespace LazyPan {
 
                             // 显示悬浮信息
                             if (!string.IsNullOrEmpty(tooltip)) {
-                                Vector2 tooltipPosition = Event.current.mousePosition + new Vector2(10, 10); // 设置悬浮提示位置
+                                Vector2 tooltipPosition =
+                                    Event.current.mousePosition + new Vector2(10, 10); // 设置悬浮提示位置
                                 GUI.Label(new Rect(tooltipPosition.x, tooltipPosition.y, 250, 20), tooltip);
                             }
 
                             hasContent = true;
                         }
+
+                        strContent = "测试行为按钮";
+                        SelectBindBehaviour(strContent, displayCount, str[5]);
+
                         GUILayout.FlexibleSpace();
                         GUILayout.EndHorizontal();                
                     }
@@ -259,18 +260,30 @@ namespace LazyPan {
             }
         }
 
+        private void SelectBindBehaviour(string buttonName, int displayCount, string behaviourSigns) {
+            if (GUILayout.Button(buttonName, GUILayout.Width(Screen.width / (displayCount + 1) - 10))) {
+                GenericMenu menu = new GenericMenu();
+                for (int i = 0; i < behaviourNames.Length; i++) {
+                    bool isSelected = selectedOptions[i];
+                    int index = i;
+                    menu.AddItem(new GUIContent(behaviourNames[i]), isSelected, () => ToggleLayerSelection(index));
+                }
+                menu.ShowAsContext();
+            }
+        }
+
         //绑定行为相关
-        private void BehaviourJudge() {
+        private void BehaviourJudge(string[] str) {
             //Color green
             //Color red
             //去 BehaviourConfig 判断是否配置行为 没有的话 点击 CSV 创建？ 有的话跳转到行为预览？
+            Debug.Log("行为点击：" + str[5]);
         }
 
         //预制体相关
         private void PrefabJudge(bool hasPrefab, string[] str) {
             //点击的实体如果在实体配置存在直接跳转 如果没有游戏物体创建
             if (hasPrefab) {
-                // _tool.currentToolBar = 1;
                 string path = $"Assets/LazyPan/Bundles/Prefabs/Obj/{str[1]}/{str[0]}.prefab"; // 修改为你的路径
                 var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
                 if (prefab != null) {
