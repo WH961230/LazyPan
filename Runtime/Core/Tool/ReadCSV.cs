@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using LazyPan;
 using UnityEditor;
@@ -29,6 +30,22 @@ public class ReadCSV : Singleton<ReadCSV> {
             lines = default;
             Debug.LogError($"错误 {filePath} 配置读取错误，需要将外部 Excel 软件关闭，请检查!");
             EditorApplication.isPlaying = false;
+        }
+    }
+
+    public void Write(string fileName, string[] lines) {
+        string filePath = Path.Combine(Application.streamingAssetsPath, "Csv", fileName + ".csv");
+
+        try {
+            using (StreamWriter sw = new StreamWriter(filePath, false, System.Text.Encoding.UTF8)) {
+                foreach (var line in lines) {
+                    sw.WriteLine(line);
+                }
+            }
+
+            Debug.Log($"成功写入文件 {filePath}");
+        } catch (Exception ex) {
+            Debug.LogError($"写入文件 {filePath} 时出错: {ex.Message}");
         }
     }
 }

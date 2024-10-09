@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -65,8 +66,6 @@ namespace LazyPan {
                     }
                 }
             }
-
-            selectedOptions = new bool[behaviourNames.Length];
             
             isFoldoutTool = true;
             isFoldoutData = true;
@@ -174,8 +173,48 @@ namespace LazyPan {
         }
 
         //选中改变状态
-        private void ToggleLayerSelection(int index) {
+        private void ToggleLayerSelection(int index, string flowSign, string entitySign, string behaviourSign) {
             selectedOptions[index] = !selectedOptions[index];
+            //如果点击后是增加 则增加行为数据 反之减少 操作是对行为重新录入
+            UpdateEntityBehaviourData(selectedOptions[index], flowSign, entitySign, behaviourSign);
+            OnStart(_tool);
+        }
+
+        private void UpdateEntityBehaviourData(bool add, string flowSign, string entitySign, string behaviourName) {
+            ReadCSV.Instance.Read("ObjConfig", out string content, out string[] lines);
+            for (int i = 0; i < lines.Length; i++) {
+                if (i > 2) {
+                    string[] linesStr = lines[i].Split(',');
+                    if (linesStr[0] == entitySign && linesStr[1] == flowSign) {
+                        string[] bindBehaviourName = linesStr[5].Split('|');
+                        string newBind = "";
+                        foreach (var tmpBindStr in bindBehaviourName) {
+                            if (add) {
+                                newBind += tmpBindStr + "|";
+                            } else {
+                                if (tmpBindStr != behaviourName) {
+                                    newBind += tmpBindStr + "|";
+                                }
+                            }
+                        }
+
+                        if (add) {
+                            newBind += behaviourName;
+                        }
+
+                        newBind = newBind.TrimEnd('|');
+                        newBind = newBind.TrimStart('|');
+
+                        linesStr[5] = newBind;
+                
+                        // 将更新后的内容重新拼接回 lines 数组
+                        lines[i] = string.Join(",", linesStr);
+                        break;
+                    }
+                }
+            }
+
+            ReadCSV.Instance.Write("ObjConfig", lines);
         }
 
         private void ExpandEntityData() {
@@ -245,8 +284,8 @@ namespace LazyPan {
                             hasContent = true;
                         }
 
-                        strContent = "测试行为按钮";
-                        SelectBindBehaviour(strContent, displayCount, str[5]);
+                        strContent = "行为绑定";
+                        SelectBindBehaviour(strContent, displayCount, str[1], str[0], str[5]);
 
                         GUILayout.FlexibleSpace();
                         GUILayout.EndHorizontal();                
@@ -260,13 +299,17 @@ namespace LazyPan {
             }
         }
 
-        private void SelectBindBehaviour(string buttonName, int displayCount, string behaviourSigns) {
+        private void SelectBindBehaviour(string buttonName, int displayCount, string flowSign, string entitySign, string behaviourSigns) {
             if (GUILayout.Button(buttonName, GUILayout.Width(Screen.width / (displayCount + 1) - 10))) {
                 GenericMenu menu = new GenericMenu();
+                List<string> behaviourClips = behaviourSigns.Split('|').ToList();
+                selectedOptions = new bool[behaviourNames.Length];
                 for (int i = 0; i < behaviourNames.Length; i++) {
-                    bool isSelected = selectedOptions[i];
                     int index = i;
-                    menu.AddItem(new GUIContent(behaviourNames[i]), isSelected, () => ToggleLayerSelection(index));
+                    string tmpBehaviourName = behaviourNames[i];
+                    bool isSelected = behaviourClips.Contains(tmpBehaviourName);
+                    selectedOptions[i] = isSelected;
+                    menu.AddItem(new GUIContent(tmpBehaviourName), isSelected, () => ToggleLayerSelection(index, flowSign, entitySign, tmpBehaviourName));
                 }
                 menu.ShowAsContext();
             }
