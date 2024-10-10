@@ -105,6 +105,12 @@ namespace LazyPan {
                     Application.OpenURL("https://github.com/BewanHeyonga");
                 }
                 GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Ciki")) {
+                    Application.OpenURL("https://b23.tv/xWvd36C");
+                }
+                GUILayout.EndHorizontal();
             }
         }
     }

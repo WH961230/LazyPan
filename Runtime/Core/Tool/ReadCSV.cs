@@ -42,8 +42,6 @@ public class ReadCSV : Singleton<ReadCSV> {
                     sw.WriteLine(line);
                 }
             }
-
-            Debug.Log($"成功写入文件 {filePath}");
         } catch (Exception ex) {
             Debug.LogError($"写入文件 {filePath} 时出错: {ex.Message}");
         }
