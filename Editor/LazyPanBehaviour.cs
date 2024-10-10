@@ -5,6 +5,7 @@ using UnityEngine;
 namespace LazyPan {
     public class LazyPanBehaviour : EditorWindow {
         private bool isFoldoutTool;
+        private bool isFoldoutBehaviour;
         private bool isFoldoutData;
         private string[][] BehaviourConfigStr;
         private LazyPanTool _tool;
@@ -30,12 +31,14 @@ namespace LazyPan {
             
             isFoldoutTool = true;
             isFoldoutData = true;
+            isFoldoutBehaviour = true;
         }
 
         public void OnCustomGUI(float areaX) {
             GUILayout.BeginArea(new Rect(areaX, 60, Screen.width, Screen.height));
             Title();
             AutoTool();
+            ManualGenerateBehaviourTool();
             PreviewBehaviourConfigData();
             GUILayout.EndArea();
         }
@@ -65,15 +68,28 @@ namespace LazyPan {
             if (isFoldoutTool) {
                 GUILayout.Label("");
                 height += GUILayoutUtility.GetLastRect().height;
+                GUILayout.BeginVertical();
+
                 GUILayout.BeginHorizontal();
                 GUIStyle style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
                 if(GUILayout.Button("打开行为配置表 Csv", style)) {
                     OpenBehaviourCsv(false);
                 }
+                GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
                 if(GUILayout.Button("打开行为自动脚本生成配置表 Csv", style)) {
                     OpenBehaviourCsv(true);
                 }
                 GUILayout.EndHorizontal();
+
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("点击此处 自动生成行为模板(需手动修改生成的 XXX_Behaviour_Template 后面的 Template 删除且放到 Behaviour 目录下)", style)) {
+                    AutoGenerateBehaviourTemplate();
+                }
+                GUILayout.EndHorizontal();
+                
+                GUILayout.EndVertical();
                 height += GUILayoutUtility.GetLastRect().height;
             } else {
                 GUILayout.Space(10);
@@ -82,6 +98,56 @@ namespace LazyPan {
             LazyPanTool.DrawBorder(new Rect(rect.x + 2f, rect.y - 2f, rect.width - 2f, rect.height + height + 5f), Color.white);
 
             GUILayout.Space(10);
+        }
+
+        private void ManualGenerateBehaviourTool() {
+            isFoldoutBehaviour = EditorGUILayout.Foldout(isFoldoutBehaviour, " 手动创建行为工具", true);
+            Rect rect = GUILayoutUtility.GetLastRect();
+            float height = 0;
+            if (isFoldoutBehaviour) {
+                GUILayout.Label("开发中，敬请期待，实现可以自动配置生成行为模板！");
+                height += GUILayoutUtility.GetLastRect().height;
+                /*
+                GUILayout.BeginVertical();
+                GUILayout.Label("");
+                GUILayout.BeginHorizontal();
+                string _instanceFlowName = "";
+                _instanceFlowName = EditorGUILayout.TextField("流程标识(必填)", _instanceFlowName, GUILayout.Height(20));
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                string _instanceTypeName = "";
+                _instanceTypeName = EditorGUILayout.TextField("类型标识(必填)", _instanceTypeName, GUILayout.Height(20));
+                GUILayout.EndHorizontal();
+                GUILayout.BeginHorizontal();
+                string _instanceObjName = "";
+                _instanceObjName = EditorGUILayout.TextField("实体标识(必填)", _instanceObjName, GUILayout.Height(20));
+                GUILayout.EndHorizontal();
+                GUI.SetNextControlName("objChineseName");
+                GUILayout.BeginHorizontal();
+                string _instanceObjChineseName = "";
+                _instanceObjChineseName = EditorGUILayout.TextField("实体中文名字(必填)", _instanceObjChineseName, GUILayout.Height(20));
+                GUILayout.EndHorizontal();
+                GUIStyle style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
+                if(GUILayout.Button("创建实体物体", style)) {
+                    //InstanceCustomObj();
+                }
+                if(GUILayout.Button("创建实体物体点位配置", style)) {
+                    //InstanceCustomLocationSetting();
+                }
+                GUILayout.EndVertical();
+                height += GUILayoutUtility.GetLastRect().height;
+                */
+            } else {
+                GUILayout.Space(10);
+            }
+            
+            LazyPanTool.DrawBorder(new Rect(rect.x + 2f, rect.y - 2f, rect.width - 2f, rect.height + height + 5f), Color.white);
+
+            GUILayout.Space(10);
+        }
+
+        private void AutoGenerateBehaviourTemplate() {
+            Generate.GenerateBehaviour(true);
         }
 
         private void Title() {

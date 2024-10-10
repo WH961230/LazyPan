@@ -145,9 +145,6 @@ namespace LazyPan {
                 if (GUILayout.Button("点击此处 自动生成行为", style)) {
                     AutoGenerateBehaviour();
                 }
-                if (GUILayout.Button("点击此处 自动生成行为模板(需手动修改生成的 XXX_Behaviour_Template 后面的 Template 删除且放到 Behaviour 目录下)", style)) {
-                    AutoGenerateBehaviourTemplate();
-                }
                 GUILayout.EndHorizontal();
                 height += GUILayoutUtility.GetLastRect().height;
 
@@ -459,10 +456,6 @@ namespace LazyPan {
 
         private void AutoGenerateBehaviour() {
             Generate.GenerateBehaviour(false);
-        }
-
-        private void AutoGenerateBehaviourTemplate() {
-            Generate.GenerateBehaviour(true);
         }
 
         private void TestSceneAndPlay() {
