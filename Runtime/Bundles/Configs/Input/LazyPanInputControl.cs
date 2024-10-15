@@ -44,6 +44,15 @@ public partial class @LazyPanInputControl: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""27c503de-cbe3-40b3-bc5b-04fa9147cf60"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -68,6 +77,17 @@ public partial class @LazyPanInputControl: IInputActionCollection2, IDisposable
                     ""action"": ""Console"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""aedb7295-ce02-47be-a758-d6e48d30b11f"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -78,6 +98,7 @@ public partial class @LazyPanInputControl: IInputActionCollection2, IDisposable
         m_Global = asset.FindActionMap("Global", throwIfNotFound: true);
         m_Global_Space = m_Global.FindAction("Space", throwIfNotFound: true);
         m_Global_Console = m_Global.FindAction("Console", throwIfNotFound: true);
+        m_Global_MouseLeft = m_Global.FindAction("MouseLeft", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -141,12 +162,14 @@ public partial class @LazyPanInputControl: IInputActionCollection2, IDisposable
     private List<IGlobalActions> m_GlobalActionsCallbackInterfaces = new List<IGlobalActions>();
     private readonly InputAction m_Global_Space;
     private readonly InputAction m_Global_Console;
+    private readonly InputAction m_Global_MouseLeft;
     public struct GlobalActions
     {
         private @LazyPanInputControl m_Wrapper;
         public GlobalActions(@LazyPanInputControl wrapper) { m_Wrapper = wrapper; }
         public InputAction @Space => m_Wrapper.m_Global_Space;
         public InputAction @Console => m_Wrapper.m_Global_Console;
+        public InputAction @MouseLeft => m_Wrapper.m_Global_MouseLeft;
         public InputActionMap Get() { return m_Wrapper.m_Global; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -162,6 +185,9 @@ public partial class @LazyPanInputControl: IInputActionCollection2, IDisposable
             @Console.started += instance.OnConsole;
             @Console.performed += instance.OnConsole;
             @Console.canceled += instance.OnConsole;
+            @MouseLeft.started += instance.OnMouseLeft;
+            @MouseLeft.performed += instance.OnMouseLeft;
+            @MouseLeft.canceled += instance.OnMouseLeft;
         }
 
         private void UnregisterCallbacks(IGlobalActions instance)
@@ -172,6 +198,9 @@ public partial class @LazyPanInputControl: IInputActionCollection2, IDisposable
             @Console.started -= instance.OnConsole;
             @Console.performed -= instance.OnConsole;
             @Console.canceled -= instance.OnConsole;
+            @MouseLeft.started -= instance.OnMouseLeft;
+            @MouseLeft.performed -= instance.OnMouseLeft;
+            @MouseLeft.canceled -= instance.OnMouseLeft;
         }
 
         public void RemoveCallbacks(IGlobalActions instance)
@@ -193,5 +222,6 @@ public partial class @LazyPanInputControl: IInputActionCollection2, IDisposable
     {
         void OnSpace(InputAction.CallbackContext context);
         void OnConsole(InputAction.CallbackContext context);
+        void OnMouseLeft(InputAction.CallbackContext context);
     }
 }

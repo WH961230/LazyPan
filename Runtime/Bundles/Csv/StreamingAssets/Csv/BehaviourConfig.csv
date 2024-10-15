@@ -2,6 +2,7 @@
 string,string,string
 标识,名字,描述
 Behaviour_Auto_FollowPlayer,跟随玩家,跟随玩家
-Behaviour_Input_PlayerMovement,玩家输入移动,玩家输入移动
-Behaviour_Event_SceneAUI,场景AUI事件,场景AUI事件
-Behaviour_Event_SceneBUI,场景BUI事件,场景BUI事件
+Behaviour_Auto_Gravity,重力,重力
+Behaviour_Input_BirdFly,小鸟输入起飞,小鸟输入起飞
+Behaviour_Event_BeginUI,开始场景UI事件,开始场景UI事件
+Behaviour_Event_BattleUI,战斗场景UI事件,战斗场景UI事件

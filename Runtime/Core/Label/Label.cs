@@ -101,6 +101,8 @@
         public static string ENERGY = "Energy";//能量
         public static string MAX = "Max";//最大
         public static string JUMP = "Jump";//跳转
+        public static string START = "Start";//开始
+        public static string GAME = "Game";//游戏
 
         //组合A+B
         public static string Assemble(string labelA, string labelB) {

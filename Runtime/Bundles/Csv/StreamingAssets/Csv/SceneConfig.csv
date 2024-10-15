@@ -1,5 +1,5 @@
 ﻿Sign,Description,DirPath,Flow,DelayTime
 string,string,string,string,float
 标识,描述,物体路径,流程,加载时间
-SceneA,开始场景A,Obj/SceneA/,SceneA,1
-SceneB,战斗场景B,Obj/SceneB/,SceneB,1
+Begin,开始场景,Obj/Begin/,Begin,1
+Battle,战斗场景,Obj/Battle/,Battle,1
