@@ -250,10 +250,10 @@ MonoBehaviour:
   Floats:
   - Sign: Gravity
     Description: "\u91CD\u529B\u7CFB\u6570"
-    Float: 1000
+    Float: 1500
   - Sign: JumpForce
     Description: "\u8DF3\u8DC3\u529B\u91CF"
-    Float: 600
+    Float: 800
   - Sign: Velocity
     Description: "\u5782\u76F4\u5411\u91CF"
     Float: 0
