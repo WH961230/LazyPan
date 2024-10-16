@@ -3,11 +3,3 @@ string,string,string,string,string
 行为代码标识,行为,行为类型代码标识,方法代码标识,方法
 FollowPlayer,跟随玩家,Auto,Init,初始化
 FollowPlayer,跟随玩家,Auto,Clear,清除
-BirdFly,小鸟输入起飞,Input,Init,初始化
-BirdFly,小鸟输入起飞,Input,Clear,清除
-Gravity,重力,Auto,Init,初始化
-Gravity,重力,Auto,Clear,清除
-BeginUI,开始场景UI,Event,Init,初始化
-BeginUI,开始场景UI,Event,Clear,清除
-BattleUI,战斗场景UI,Event,Init,初始化
-BattleUI,战斗场景UI,Event,Clear,清除
