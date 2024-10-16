@@ -19,6 +19,10 @@ namespace LazyPan {
         [HideInInspector] public UnityEvent<Collider> OnTriggerStayEvent;
         [HideInInspector] public UnityEvent<Collider> OnTriggerExitEvent;
         
+        [HideInInspector] public UnityEvent<Collider2D> OnTriggerEnterEvent2D;
+        [HideInInspector] public UnityEvent<Collider2D> OnTriggerStayEvent2D;
+        [HideInInspector] public UnityEvent<Collider2D> OnTriggerExitEvent2D;
+        
         [HideInInspector] public UnityEvent<Collision> OnCollisionEnterEvent;
         [HideInInspector] public UnityEvent<Collision> OnCollisionStayEvent;
         [HideInInspector] public UnityEvent<Collision> OnCollisionExitEvent;
@@ -37,6 +41,7 @@ namespace LazyPan {
         public List<TransformData> Transforms = new List<TransformData>();
         public List<ColliderData> Colliders = new List<ColliderData>();
         public List<MaterialData> Materials = new List<MaterialData>();
+        public List<Rigidbody2DData> Rigidbody2Ds = new List<Rigidbody2DData>();
         public List<RendererData> Renderers = new List<RendererData>();
         public List<CharacterControllerData> CharacterControllers = new List<CharacterControllerData>();
         public List<ButtonData> Buttons = new List<ButtonData>();
@@ -78,6 +83,12 @@ namespace LazyPan {
                 foreach (MaterialData materialData in Materials) {
                     if (materialData.Sign == sign) {
                         return materialData.Material as T;
+                    }
+                }
+            } else if (typeof(T) == typeof(Rigidbody2D)) {
+                foreach (Rigidbody2DData data in Rigidbody2Ds) {
+                    if (data.Sign == sign) {
+                        return data.Rigidbody2D as T;
                     }
                 }
             } else if (typeof(T) == typeof(Renderer)) {
@@ -205,6 +216,18 @@ namespace LazyPan {
 
         public void OnTriggerExit(Collider other) {
             OnTriggerExitEvent?.Invoke(other);
+        }
+
+        public void OnTriggerEnter2D(Collider2D other) {
+            OnTriggerEnterEvent2D?.Invoke(other);
+        }
+        
+        public void OnTriggerStay2D(Collider2D other) {
+            OnTriggerStayEvent2D?.Invoke(other);
+        }
+        
+        public void OnTriggerExit2D(Collider2D other) {
+            OnTriggerExitEvent2D?.Invoke(other);
         }
 
         public void OnCollisionEnter(Collision other) {
@@ -359,6 +382,12 @@ namespace LazyPan {
         public class ColliderData {
             public string Sign;
             public Collider Collider;
+        }
+
+        [Serializable]
+        public class Rigidbody2DData {
+            public string Sign;
+            public Rigidbody2D Rigidbody2D;
         }
 
         [Serializable]

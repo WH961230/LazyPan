@@ -103,6 +103,10 @@
         public static string JUMP = "Jump";//跳转
         public static string START = "Start";//开始
         public static string GAME = "Game";//游戏
+        public static string GRAVITY = "Gravity";//重力
+        public static string FORCE = "Force";//力
+        public static string VELOCITY = "Velocity";//向量
+        public static string SIGN = "Sign";//标识
 
         //组合A+B
         public static string Assemble(string labelA, string labelB) {

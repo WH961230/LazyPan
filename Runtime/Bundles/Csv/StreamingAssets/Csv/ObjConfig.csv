@@ -6,5 +6,7 @@ Obj_Global_Global,Begin,Global,开始场景全局,,
 Obj_Event_BeginUI,Begin,Event,开始场景UI,,开始场景UI事件
 Obj_Camera_Camera,Battle,Camera,战斗场景相机,,跟随玩家
 Obj_Player_Bird,Battle,Player,战斗场景玩家小鸟,LocationInf_Battle_Bird,小鸟输入起飞|重力
+Obj_Event_TubeCreator,Battle,Event,战斗场景管子生成器,,战斗场景生成管子
+Obj_Tube_Tube,Battle,Tube,战斗场景管子,,战斗场景撞管子
 Obj_Global_Global,Battle,Global,战斗场景全局,,
 Obj_Event_BattleUI,Battle,Event,战斗场景UI,,战斗场景UI事件
