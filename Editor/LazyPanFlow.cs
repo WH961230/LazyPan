@@ -114,7 +114,7 @@ namespace LazyPan {
                             if (i == 0) {
                                 fontColor = Color.cyan;
                             } else {
-                                fontColor = str[4] == "Init" ? Color.green : Color.red;
+                                fontColor = (str[2] == "open_ui" || str[2] == "load_entity") ? Color.green : Color.red;
                             }
                             GUIStyle labelStyle = new GUIStyle(GUI.skin.label);
                             labelStyle.normal.textColor = fontColor; // 设置字体颜色

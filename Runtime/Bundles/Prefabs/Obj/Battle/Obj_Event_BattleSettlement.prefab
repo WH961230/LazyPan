@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5603811672759092760}
   - component: {fileID: 1637018644772130692}
   m_Layer: 0
-  m_Name: Obj_Global_Global
+  m_Name: Obj_Event_BattleSettlement
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_Children:
   - {fileID: 7868656383781502519}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5603811672759092760
 MonoBehaviour:
@@ -56,15 +56,6 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnTriggerExitEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTriggerEnterEvent2D:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTriggerStayEvent2D:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTriggerExitEvent2D:
     m_PersistentCalls:
       m_Calls: []
   OnCollisionEnterEvent:
@@ -106,7 +97,6 @@ MonoBehaviour:
     Tran: {fileID: 7868656383781502519}
   Colliders: []
   Materials: []
-  Rigidbody2Ds: []
   Renderers: []
   CharacterControllers: []
   Buttons: []
@@ -123,7 +113,6 @@ MonoBehaviour:
   TrailRenderers: []
   Cameras: []
   NavMeshAgents: []
-  LineRenderers: []
 --- !u!114 &1637018644772130692
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,13 +126,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Bools: []
-  Ints:
-  - Sign: Score
-    Description: "\u79EF\u5206"
-    Int: 0
+  Ints: []
   Floats: []
   Strings: []
-  Vector3s: []
 --- !u!1 &8090360991350506415
 GameObject:
   m_ObjectHideFlags: 0

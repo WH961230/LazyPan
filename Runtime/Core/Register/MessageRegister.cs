@@ -201,8 +201,4 @@ namespace LazyPan {
             }
         }
     }
-
-    public class MessageCode {
-        public static int Settlement = 0;//结算
-    }
 }

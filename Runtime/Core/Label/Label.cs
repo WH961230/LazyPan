@@ -107,6 +107,7 @@
         public static string FORCE = "Force";//力
         public static string VELOCITY = "Velocity";//向量
         public static string SIGN = "Sign";//标识
+        public static string SCORE = "Score";//积分
 
         //组合A+B
         public static string Assemble(string labelA, string labelB) {
