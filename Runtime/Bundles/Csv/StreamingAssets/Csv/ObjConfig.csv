@@ -10,3 +10,4 @@ Obj_Event_TubeCreator,Battle,Event,战斗场景管子生成器,,战斗场景生�
 Obj_Tube_Tube,Battle,Tube,战斗场景管子,,战斗场景撞管子
 Obj_Global_Global,Battle,Global,战斗场景全局,,
 Obj_Event_BattleUI,Battle,Event,战斗场景UI,,战斗场景UI事件
+Obj_Event_BattleSettlement,Battle,Event,战斗场景结算,,战斗场景结算

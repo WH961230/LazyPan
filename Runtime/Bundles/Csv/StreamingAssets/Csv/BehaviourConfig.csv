@@ -8,3 +8,4 @@ Behaviour_Event_BeginUI,开始场景UI事件,开始场景UI事件
 Behaviour_Event_BattleUI,战斗场景UI事件,战斗场景UI事件
 Behaviour_Event_CreateTube,战斗场景生成管子,战斗场景生成管子
 Behaviour_Auto_HitTube,战斗场景撞管子,战斗场景撞管子
+Behaviour_Event_BattleSettlement,战斗场景结算,战斗场景结算
