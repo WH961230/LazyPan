@@ -5,8 +5,10 @@ namespace LazyPan {
     public class LazyPanSupport : EditorWindow {
         private bool isFoldoutList;
         private Texture2D image;
+        private Texture2D lazyPanImage;
         public void OnStart(LazyPanTool lazyPanTool) {
             image = AssetDatabase.LoadAssetAtPath<Texture2D>($"Packages/evoreek.lazypan/Editor/Image/赞赏码.jpg");
+            lazyPanImage = AssetDatabase.LoadAssetAtPath<Texture2D>($"Packages/evoreek.lazypan/Editor/Image/获取码.jpg");
         }
 
         public void OnCustomGUI(float areaX) {
@@ -56,8 +58,17 @@ namespace LazyPan {
 
             GUILayout.BeginHorizontal();
             style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
-            if (GUILayout.Button("❤@  解锁 LazyPanPro 增强版  @❤", style)) {
+            if (GUILayout.Button("❤@  了解 LazyPanPro 增强版  @❤", style)) {
                 Application.OpenURL("https://space.bilibili.com/29326484?spm_id_from=333.1007.0.0");
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
+            if (GUILayout.Button("❤@  购买 LazyPanPro 增强版  @❤", style)) {
+                SupportPro window = (SupportPro)GetWindow(typeof(SupportPro), true, "我想获取LazyPanPro增强版", true);
+                window.SetImage(lazyPanImage);
+                window.Show();
             }
             GUILayout.EndHorizontal();
 
@@ -83,7 +94,30 @@ namespace LazyPan {
                     // 绘制图片
                     GUILayout.BeginArea(new Rect(0, 0, imageSize.x, imageSize.y));
                     GUILayout.Label(_image);
-                    // GUILayout.Label("打赏后私聊作者 GitHubID 写入特别鸣谢！");
+                    GUILayout.EndArea();
+                }
+            }
+        }
+
+        public class SupportPro : EditorWindow {
+            private Texture2D _image;
+            public void SetImage(Texture2D image) {
+                _image = image;
+            }
+
+            private void OnGUI() {
+                if (_image != null) {
+                    // 计算窗口和图片大小
+                    var imageSize = new Vector2(_image.width, _image.height);
+                    var windowSize = new Vector2(imageSize.x, imageSize.y);
+
+                    // 设置窗口大小
+                    minSize = windowSize;
+                    maxSize = windowSize;
+
+                    // 绘制图片
+                    GUILayout.BeginArea(new Rect(0, 0, imageSize.x, imageSize.y));
+                    GUILayout.Label(_image);
                     GUILayout.EndArea();
                 }
             }
