@@ -29,14 +29,14 @@ namespace LazyPan {
             style = LazyPanTool.GetGUISkin("TitleGUISkin").GetStyle("label");
             GUILayout.Label("", style);
             GUILayout.EndHorizontal();
-            
+
             GUILayout.BeginHorizontal();
             style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
             if (GUILayout.Button("❤@  作者B站主页  @❤", style)) {
                 Application.OpenURL("https://space.bilibili.com/29326484?spm_id_from=333.1007.0.0");
             }
             GUILayout.EndHorizontal();
-            
+
             GUILayout.BeginHorizontal();
             style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
             if (GUILayout.Button("❤@  给作者充个电  @❤", style)) {
@@ -51,6 +51,13 @@ namespace LazyPan {
             if (GUILayout.Button("❤@  特别鸣谢  @❤", style)) {
                 SupportFans window = (SupportFans)GetWindow(typeof(SupportFans), true, "特别鸣谢", true);
                 window.Show();
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            style = LazyPanTool.GetGUISkin("AButtonGUISkin").GetStyle("button");
+            if (GUILayout.Button("❤@  解锁 LazyPanPro 增强版  @❤", style)) {
+                Application.OpenURL("https://space.bilibili.com/29326484?spm_id_from=333.1007.0.0");
             }
             GUILayout.EndHorizontal();
 

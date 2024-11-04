@@ -110,24 +110,24 @@ namespace LazyPan {
 
     public class LoadScene : StageWork {
         LoadSceneParameters Parameters;
+        private AsyncOperation operation;
 
         public LoadScene(StageParameters Parameters) : base(Parameters) {
             this.Parameters = (LoadSceneParameters)Parameters;
+            operation = Loader.LoadSceneAsync(this.Parameters.sceneName);
+            operation.allowSceneActivation = false;
         }
 
         public override void Start() {
-            AsyncOperation operation = Loader.LoadSceneAsync(Parameters.sceneName);
-            operation.allowSceneActivation = false;
-            while (!operation.isDone) {
-                if (operation.progress >= 0.9f) {
-                    operation.allowSceneActivation = true;
-                    IsDone = true;
-                    break;
-                }
-            }
         }
 
         public override void Update() {
+            if (operation != null && !IsDone) {
+                if (operation.progress >= 0.9f) {
+                    operation.allowSceneActivation = true;
+                    IsDone = true;
+                }
+            }
         }
 
         public override void Complete() {
